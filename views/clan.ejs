@@ -1,0 +1,2374 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clan - Clan App</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --primary-light: #e7f0ff;
+            --secondary: #4895ef;
+            --success: #4cc9f0;
+            --danger: #f72585;
+            --warning: #ffd166;
+            --info: #0096c7;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --gray-light: #e9ecef;
+            --gray-dark: #343a40;
+            --body-bg: #f5f7fa;
+            --card-shadow: 0 8px 24px rgba(149, 157, 165, 0.15);
+            --hover-shadow: 0 12px 28px rgba(149, 157, 165, 0.25);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            background-color: var(--body-bg);
+            font-family: 'Poppins', sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 24px;
+            color: white;
+            letter-spacing: 0.5px;
+            transition: var(--transition);
+        }
+
+        .navbar-brand:hover {
+            transform: translateY(-2px);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .navbar-nav .nav-link {
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 8px 15px;
+            border-radius: 8px;
+            margin: 0 5px;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .navbar-nav .nav-link i {
+            margin-right: 6px;
+        }
+
+        .clan-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 30px 0;
+        }
+
+        .clan-header {
+            background-color: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 30px;
+            transition: var(--transition);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .clan-header:hover {
+            box-shadow: var(--hover-shadow);
+            transform: translateY(-5px);
+        }
+
+        .clan-banner {
+            height: 150px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .clan-banner::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+        }
+
+        @media (min-width: 768px) {
+            .clan-banner {
+                height: 220px;
+            }
+        }
+
+        .clan-info {
+            padding: 25px;
+        }
+
+        .clan-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--dark);
+            position: relative;
+            display: inline-block;
+        }
+
+        .clan-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background-color: var(--primary);
+            border-radius: 3px;
+        }
+
+        .clan-description {
+            color: var(--gray);
+            margin-bottom: 20px;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        .clan-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .clan-content {
+            display: flex;
+            flex: 1;
+            gap: 25px;
+            flex-direction: column;
+        }
+
+        @media (min-width: 992px) {
+            .clan-content {
+                flex-direction: row;
+            }
+        }
+
+        .chat-container {
+            flex: 1;
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            flex-direction: column;
+            height: 400px;
+            margin-bottom: 20px;
+            overscroll-behavior: contain;
+            position: relative;
+            transition: var(--transition);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .chat-container:hover {
+            box-shadow: var(--hover-shadow);
+        }
+
+        @media (min-width: 992px) {
+            .chat-container {
+                height: 600px;
+                margin-bottom: 0;
+            }
+        }
+
+        .chat-header {
+            padding: 18px 20px;
+            border-bottom: 1px solid var(--gray-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            background-color: white;
+            z-index: 10;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            border-radius: 16px 16px 0 0;
+        }
+
+        .chat-title {
+            font-weight: 600;
+            font-size: 18px;
+            margin: 0;
+            color: var(--dark);
+        }
+
+        .chat-online {
+            font-size: 14px;
+            color: var(--gray);
+            display: flex;
+            align-items: center;
+        }
+
+        .chat-online::before {
+            content: '';
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: var(--success);
+            border-radius: 50%;
+            margin-right: 6px;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            overscroll-behavior: contain;
+            -webkit-overflow-scrolling: touch;
+            background-color: rgba(245, 247, 250, 0.5);
+        }
+
+        .message {
+            display: flex;
+            gap: 12px;
+            max-width: 95%;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (min-width: 768px) {
+            .message {
+                max-width: 80%;
+            }
+        }
+
+        .message.own {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            flex-shrink: 0;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            border: 2px solid white;
+        }
+
+        .message-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .message-content {
+            background-color: white;
+            padding: 12px 16px;
+            border-radius: 18px;
+            position: relative;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--gray-light);
+            transition: var(--transition);
+        }
+
+        .message-content:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .message.own .message-content {
+            background-color: var(--primary-light);
+            border-color: rgba(67, 97, 238, 0.2);
+        }
+
+        .message-sender {
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--primary);
+            font-size: 14px;
+        }
+
+        .message-text {
+            word-break: break-word;
+            line-height: 1.5;
+        }
+
+        .message-time {
+            font-size: 12px;
+            color: var(--gray);
+            margin-top: 6px;
+            text-align: right;
+        }
+
+        .chat-input {
+            padding: 16px 20px;
+            border-top: 1px solid var(--gray-light);
+            background-color: white;
+            border-radius: 0 0 16px 16px;
+        }
+
+        .chat-form {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .chat-form textarea {
+            flex: 1;
+            border-radius: 24px;
+            padding: 12px 18px;
+            resize: none;
+            border: 1px solid var(--gray-light);
+            transition: var(--transition);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+            font-size: 15px;
+        }
+
+        .chat-form textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+        }
+
+        .chat-form button {
+            border-radius: 50%;
+            width: 46px;
+            height: 46px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border: none;
+            box-shadow: 0 4px 8px rgba(67, 97, 238, 0.25);
+            transition: var(--transition);
+        }
+
+        .chat-form button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(67, 97, 238, 0.3);
+        }
+
+        .chat-form button:active {
+            transform: translateY(1px);
+        }
+
+        .members-container {
+            width: 100%;
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: var(--transition);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .members-container:hover {
+            box-shadow: var(--hover-shadow);
+        }
+
+        @media (min-width: 992px) {
+            .members-container {
+                width: 320px;
+            }
+        }
+
+        .members-header {
+            padding: 18px 20px;
+            border-bottom: 1px solid var(--gray-light);
+            background: linear-gradient(to right, rgba(67, 97, 238, 0.05), transparent);
+        }
+
+        .members-title {
+            font-weight: 600;
+            margin: 0;
+            color: var(--dark);
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+        }
+
+        .members-title::before {
+            content: '\f0c0';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            margin-right: 8px;
+            color: var(--primary);
+        }
+
+        .members-list {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+        }
+
+        .member {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 12px;
+            cursor: pointer;
+            margin-bottom: 8px;
+            transition: var(--transition);
+            border: 1px solid transparent;
+        }
+
+        .member:hover {
+            background-color: rgba(245, 247, 250, 0.8);
+            border-color: var(--gray-light);
+            transform: translateX(5px);
+        }
+
+        .member-avatar {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            position: relative;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            border: 2px solid white;
+        }
+
+        .member-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .member-info {
+            flex: 1;
+        }
+
+        .member-name {
+            font-weight: 600;
+            margin: 0;
+            color: var(--dark);
+            transition: var(--transition);
+        }
+
+        .member:hover .member-name {
+            color: var(--primary);
+        }
+
+        .member-status {
+            font-size: 13px;
+            color: var(--gray);
+        }
+
+        .member-actions {
+            display: none;
+            animation: fadeIn 0.2s ease-out;
+        }
+
+        .member:hover .member-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .member-action {
+            background: none;
+            border: none;
+            font-size: 14px;
+            color: var(--gray);
+            cursor: pointer;
+            padding: 6px;
+            border-radius: 6px;
+            transition: var(--transition);
+        }
+
+        .member-action:hover {
+            color: var(--primary);
+            background-color: rgba(67, 97, 238, 0.1);
+        }
+
+        .member-action.danger:hover {
+            color: var(--danger);
+            background-color: rgba(247, 37, 133, 0.1);
+        }
+
+        .online-indicator {
+            width: 12px;
+            height: 12px;
+            background-color: var(--success);
+            border-radius: 50%;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            border: 2px solid white;
+            box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 6px rgba(40, 167, 69, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);
+            }
+        }
+
+        .invite-section {
+            padding: 20px;
+            border-top: 1px solid var(--gray-light);
+            background: linear-gradient(to right, rgba(67, 97, 238, 0.05), transparent);
+        }
+
+        .invite-title {
+            font-weight: 600;
+            margin-bottom: 12px;
+            font-size: 15px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+        }
+
+        .invite-title::before {
+            content: '\f084';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            margin-right: 8px;
+            color: var(--primary);
+        }
+
+        .invite-link {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        @media (min-width: 768px) {
+            .invite-link {
+                flex-wrap: nowrap;
+            }
+        }
+
+        .invite-link input {
+            flex: 1;
+            border-radius: 8px;
+            padding: 10px 15px;
+            font-size: 14px;
+            border: 1px solid var(--gray-light);
+            transition: var(--transition);
+        }
+
+        .invite-link input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+        }
+
+        .invite-link button {
+            padding: 8px 12px;
+            font-size: 14px;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .invite-link button:hover {
+            transform: translateY(-2px);
+        }
+
+        .typing-indicator {
+            font-size: 14px;
+            color: var(--gray);
+            font-style: italic;
+            height: 20px;
+            margin: 0 20px 10px;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .loading-indicator {
+            text-align: center;
+            padding: 15px;
+            color: var(--gray);
+            display: none;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .loading-indicator .spinner-border {
+            width: 1rem;
+            height: 1rem;
+            margin-right: 8px;
+            color: var(--primary);
+        }
+
+        .banned-section {
+            margin-top: 20px;
+            padding: 20px;
+            border-top: 1px solid var(--gray-light);
+            background: linear-gradient(to right, rgba(247, 37, 133, 0.05), transparent);
+        }
+
+        .banned-title {
+            font-weight: 600;
+            margin-bottom: 12px;
+            font-size: 15px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+        }
+
+        .banned-title::before {
+            content: '\f05e';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            margin-right: 8px;
+            color: var(--danger);
+        }
+
+        .banned-list {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .banned-user {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            transition: var(--transition);
+            border: 1px solid transparent;
+        }
+
+        .banned-user:hover {
+            background-color: rgba(245, 247, 250, 0.8);
+            border-color: var(--gray-light);
+        }
+
+        .banned-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: var(--danger);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 12px;
+            box-shadow: 0 2px 6px rgba(247, 37, 133, 0.2);
+            border: 2px solid white;
+        }
+
+        .banned-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .banned-name {
+            flex: 1;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .banned-action {
+            background: none;
+            border: none;
+            font-size: 13px;
+            color: var(--gray);
+            cursor: pointer;
+            padding: 5px 8px;
+            border-radius: 6px;
+            transition: var(--transition);
+        }
+
+        .banned-action:hover {
+            color: var(--primary);
+            background-color: rgba(67, 97, 238, 0.1);
+        }
+
+        .message-actions {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            display: none;
+            animation: fadeIn 0.2s ease-out;
+            background-color: white;
+            border-radius: 6px;
+            padding: 2px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .message:hover .message-actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .message-action {
+            background: none;
+            border: none;
+            font-size: 12px;
+            color: var(--gray);
+            cursor: pointer;
+            padding: 4px 6px;
+            border-radius: 4px;
+            transition: var(--transition);
+        }
+
+        .message-action:hover {
+            color: var(--primary);
+            background-color: rgba(67, 97, 238, 0.1);
+        }
+
+        .message-action.danger:hover {
+            color: var(--danger);
+            background-color: rgba(247, 37, 133, 0.1);
+        }
+
+        .notification-badge {
+            margin-left: 5px;
+            font-size: 0.7em;
+            vertical-align: middle;
+            position: relative;
+            top: -2px;
+            animation: pulse 2s infinite;
+        }
+
+        /* Ocultar el contenedor de miembros en móvil */
+        @media (max-width: 991.98px) {
+            .members-container {
+                display: none;
+            }
+        }
+
+        /* Estilos para el modal de miembros */
+        .members-modal-container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .members-modal-container .members-list {
+            max-height: none;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .members-modal-container .invite-section,
+        .members-modal-container .banned-section {
+            border-top: 1px solid var(--gray-light);
+            padding: 20px;
+        }
+
+        /* Estilos para el mensaje de baneado a pantalla completa */
+        .banned-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.97);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            padding: 30px;
+            text-align: center;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .banned-overlay-icon {
+            font-size: 5rem;
+            color: var(--danger);
+            margin-bottom: 25px;
+            animation: scaleIn 0.5s ease-out;
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .banned-overlay-message {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--danger);
+            margin-bottom: 15px;
+        }
+
+        .banned-overlay-description {
+            color: var(--gray);
+            max-width: 450px;
+            margin: 0 auto;
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        /* Estilos para el mensaje de no miembro a pantalla completa */
+        .not-member-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.97);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            padding: 30px;
+            text-align: center;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .not-member-overlay-icon {
+            font-size: 5rem;
+            color: var(--warning);
+            margin-bottom: 25px;
+            animation: scaleIn 0.5s ease-out;
+        }
+
+        @keyframes scaleIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .not-member-overlay-message {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--gray-dark);
+            margin-bottom: 15px;
+        }
+
+        .not-member-overlay-description {
+            color: var(--gray);
+            max-width: 450px;
+            margin: 0 auto;
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        .not-member-overlay-button {
+            margin-top: 25px;
+        }
+
+        .not-member-overlay-button .btn {
+            padding: 10px 20px;
+            font-weight: 500;
+            box-shadow: 0 4px 8px rgba(67, 97, 238, 0.25);
+            transition: var(--transition);
+        }
+
+        .not-member-overlay-button .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(67, 97, 238, 0.3);
+        }
+
+        /* Estilos para los modales */
+        .modal-content {
+            border-radius: 16px;
+            border: none;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border-bottom: none;
+            padding: 20px;
+        }
+
+        .modal-title {
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        .modal-footer {
+            border-top: none;
+            padding: 15px 25px 25px;
+        }
+
+        .btn-close {
+            color: white;
+            opacity: 0.8;
+            transition: var(--transition);
+        }
+
+        .btn-close:hover {
+            opacity: 1;
+            transform: rotate(90deg);
+        }
+
+        /* Botones */
+        .btn {
+            border-radius: 10px;
+            font-weight: 500;
+            padding: 8px 16px;
+            transition: var(--transition);
+            letter-spacing: 0.3px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+        }
+
+        .btn-outline-primary {
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .btn-outline-primary:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-outline-danger {
+            color: var(--danger);
+            border-color: var(--danger);
+        }
+
+        .btn-outline-danger:hover {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .btn i {
+            margin-right: 6px;
+        }
+
+        /* Scrollbar personalizado */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+
+        /* Animación para mensajes vacíos */
+        .text-center.text-muted.my-5 {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .text-center.text-muted.my-5 i {
+            color: var(--gray-light);
+            margin-bottom: 15px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-20px);
+            }
+            60% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Estilos para textarea autoexpandible */
+        .chat-form textarea {
+            min-height: 46px;
+            max-height: 120px;
+            overflow-y: auto;
+        }
+
+        /* Estilos para el botón de miembros en móvil */
+        .btn-sm.btn-outline-primary {
+            padding: 6px 12px;
+            font-size: 14px;
+            border-radius: 8px;
+        }
+
+        /* Efecto de hover para los botones de acción */
+        .btn-action {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-action::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%);
+            transform-origin: 50% 50%;
+        }
+
+        .btn-action:hover::after {
+            animation: ripple 1s ease-out;
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(0, 0);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(20, 20);
+                opacity: 0;
+            }
+        }
+
+        /* Estilos para el modal de perfil de usuario */
+        .user-profile-container {
+            position: relative;
+        }
+        
+        .user-banner {
+            height: 150px;
+            background-color: var(--gray-light);
+            background-size: cover;
+            background-position: center;
+            border-radius: 8px 8px 0 0;
+        }
+        
+        .user-profile-content {
+            padding: 60px 20px 20px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .user-avatar-large {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 36px;
+            position: absolute;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 4px solid white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .user-avatar-large img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .user-name {
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .user-description {
+            color: var(--gray);
+            max-width: 400px;
+            margin: 0 auto;
+            line-height: 1.6;
+            background-color: var(--light);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: left;
+        }
+        
+        /* Hacer que los avatares sean clickeables */
+        .message-avatar, .member-avatar, .banned-avatar {
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .message-avatar:hover, .member-avatar:hover, .banned-avatar:hover {
+            transform: scale(1.1);
+        }
+
+/* Add these CSS rules to hide elements on mobile and make the chat full screen */
+@media (max-width: 767.98px) {
+    .clan-header {
+        display: none;
+    }
+    
+    .clan-container {
+        padding: 0;
+    }
+    
+    .chat-container {
+        height: 100vh;
+        margin-bottom: 0;
+        border-radius: 0;
+    }
+    
+    .chat-header {
+        border-radius: 0;
+    }
+    
+    body {
+        background-color: white;
+    }
+    
+    .container {
+        padding-left: 0;
+        padding-right: 0;
+        max-width: 100%;
+    }
+    
+    .navbar {
+        display: none;
+    }
+}
+
+/* Ensure the chat container takes full height on mobile */
+@media (max-width: 767.98px) {
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+    }
+    
+    .clan-container {
+        height: 100%;
+    }
+    
+    .clan-content {
+        height: 100%;
+    }
+}
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="/dashboard"><i class="fas fa-users me-2"></i>Clan App</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/dashboard"><i class="fas fa-home"></i> Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/perfil"><i class="fas fa-user"></i> Mi Perfil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container clan-container">
+        <div class="clan-header">
+            <div class="clan-banner" style="background-image: url('/imagen/<%= clan.id %>/banner')"></div>
+            <div class="clan-info">
+                <h1 class="clan-title"><%= clan.title %></h1>
+                <p class="clan-description"><%= clan.description %></p>
+                <div class="clan-actions">
+                    <% if (isOwner) { %>
+                        <a href="/clan/<%= clan.id %>/ajustes" class="btn btn-outline-primary btn-action">
+                            <i class="fas fa-cog"></i> Ajustes
+                        </a>
+                        <a href="/publicacion/<%= clan.id %>" class="btn btn-outline-primary btn-action">
+                            <i class="fas fa-newspaper"></i> Publicaciones
+                        </a>
+                        <button class="btn btn-outline-danger btn-action" data-bs-toggle="modal" data-bs-target="#deleteClanModal">
+                            <i class="fas fa-trash"></i> Eliminar Clan
+                        </button>
+                    <% } else if (isMember && !banned) { %>
+                        <form action="/clan/<%= clan.id %>/salir" method="POST" onsubmit="return confirm('¿Estás seguro de que quieres salir de este clan?');">
+                            <button type="submit" class="btn btn-outline-danger btn-action">
+                                <i class="fas fa-sign-out-alt"></i> Salir del Clan
+                            </button>
+                        </form>
+                        <a href="/publicacion/<%= clan.id %>" class="btn btn-outline-primary btn-action" id="publications-link">
+                            <i class="fas fa-newspaper"></i> Publicaciones
+                            <span class="badge bg-danger notification-badge" id="unread-badge" style="display: none;"></span>
+                        </a>
+                    <% } else if (banned) { %>
+                        <a href="/dashboard" class="btn btn-outline-primary btn-action">
+                            <i class="fas fa-home"></i> Volver al Dashboard
+                        </a>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+        
+        <div class="clan-content">
+            <div class="chat-container">
+                <% if (banned) { %>
+                    <!-- Mensaje de baneado a pantalla completa -->
+                    <div class="banned-overlay">
+                        <div class="banned-overlay-icon">
+                            <i class="fas fa-ban"></i>
+                        </div>
+                        <div class="banned-overlay-message">
+                            Has sido baneado de este clan
+                        </div>
+                        <div class="banned-overlay-description">
+                            No puedes ver los mensajes ni participar en este clan. Si crees que esto es un error, contacta con el propietario del clan.
+                        </div>
+                    </div>
+                <% } else if (!isMember) { %>
+                    <!-- Mensaje de no miembro a pantalla completa -->
+                    <div class="not-member-overlay">
+                        <div class="not-member-overlay-icon">
+                            <i class="fas fa-user-lock"></i>
+                        </div>
+                        <div class="not-member-overlay-message">
+                            Debes ser miembro del clan para ver los mensajes
+                        </div>
+                        <div class="not-member-overlay-description">
+                            Este clan es privado. Para ver los mensajes y participar, necesitas unirte al clan con un código de invitación.
+                        </div>
+                        <div class="not-member-overlay-button">
+                            <a href="/dashboard" class="btn btn-primary">
+                                <i class="fas fa-home"></i> Volver al Dashboard
+                            </a>
+                        </div>
+                    </div>
+                <% } %>
+                
+                <div class="chat-header">
+                    <h3 class="chat-title"><i class="fas fa-comments me-2"></i>Chat del Clan</h3>
+                    <div class="d-flex align-items-center">
+                        <div class="chat-online me-3">
+                            <span id="online-count">0</span> en línea
+                        </div>
+                        <button class="btn btn-sm btn-outline-primary d-lg-none" data-bs-toggle="modal" data-bs-target="#membersModal">
+                            <i class="fas fa-users"></i>
+                        </button>
+                        <a href="/publicacion/<%= clan.id %>" class="btn btn-outline-primary btn-action" id="publications-link">
+                            <i class="fas fa-newspaper"></i>
+                            <span class="badge bg-danger notification-badge" id="unread-badge" style="display: none;"></span>
+                        </a>
+                        <% if (isOwner) { %>
+            <a href="/clan/<%= clan.id %>/ajustes" class="btn btn-outline-primary btn-action">
+                <i class="fas fa-cog"></i>
+            </a>
+        <% } else if (isMember && !banned) { %>
+            <form action="/clan/<%= clan.id %>/salir" method="POST" onsubmit="return confirm('¿Estás seguro de que quieres salir de este clan?');">
+                <button type="submit" class="btn btn-outline-danger btn-action">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </form>
+        <% } %>
+    </div>
+</div>
+                
+                <% if (!banned && isMember) { %>
+                    <div class="chat-messages" id="chat-messages">
+                        <div id="loading-indicator" class="loading-indicator">
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            Cargando mensajes anteriores...
+                        </div>
+                        
+                        <% if (messages.length === 0) { %>
+                            <div class="text-center text-muted my-5">
+                                <i class="fas fa-comments fa-3x mb-3"></i>
+                                <p>No hay mensajes aún. ¡Sé el primero en escribir!</p>
+                            </div>
+                        <% } else { %>
+                            <% messages.forEach(message => { %>
+                                <div class="message <%= message.user_id === user.id ? 'own' : '' %>" data-message-id="<%= message.id %>">
+                                    <div class="message-avatar" data-user-id="<%= message.user_id %>">
+                                        <% if (message.profile_picture) { %>
+                                            <img src="data:image/jpeg;base64,<%= message.profile_picture %>" alt="<%= message.name %>">
+                                        <% } else { %>
+                                            <%= message.name.charAt(0).toUpperCase() %>
+                                        <% } %>
+                                    </div>
+                                    <div class="message-content" data-user-id="<%= message.user_id %>">
+                                        <% if (message.user_id !== user.id) { %>
+                                            <div class="message-sender"><%= message.name %></div>
+                                        <% } %>
+                                        <div class="message-text"><%= message.message %></div>
+                                        <div class="message-time"><%= new Date(message.timestamp).toLocaleString('es-ES', {
+                                            year: 'numeric',
+                                            month: '2-digit',
+                                            day: '2-digit',
+                                            hour: '2-digit',
+                                            minute: '2-digit'
+                                        }) %></div>
+                                        
+                                        <% if (message.user_id === user.id) { %>
+                                            <div class="message-actions">
+                                                <button class="message-action edit-message" title="Editar">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button class="message-action danger delete-message" title="Eliminar">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        <% } %>
+                                    </div>
+                                </div>
+                            <% }) %>
+                        <% } %>
+                    </div>
+                    
+                    <div class="typing-indicator" id="typing-indicator"></div>
+                <% } %>
+                
+                <% if (isMember && !banned) { %>
+                    <div class="chat-input">
+                        <form id="message-form" class="chat-form">
+                            <textarea id="message-input" class="form-control" placeholder="Escribe un mensaje..." rows="1" required></textarea>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </form>
+                    </div>
+                <% } %>
+            </div>
+            
+            <div class="members-container">
+                <div class="members-header">
+                    <h3 class="members-title">Miembros (<%= members.length %>)</h3>
+                </div>
+                
+                <div class="members-list">
+                    <% members.forEach(member => { %>
+                        <div class="member" data-user-id="<%= member.id %>">
+                            <div class="member-avatar" data-user-id="<%= member.id %>">
+                                <% if (member.profile_picture) { %>
+                                    <img src="data:image/jpeg;base64,<%= member.profile_picture %>" alt="<%= member.name %>">
+                                <% } else { %>
+                                    <%= member.name.charAt(0).toUpperCase() %>
+                                <% } %>
+                                <div class="online-indicator" style="display: none;"></div>
+                            </div>
+                            <div class="member-info">
+                                <h4 class="member-name"><%= member.name %></h4>
+                                <div class="member-status">
+                                    <% if (member.id === clan.owner_id) { %>
+                                        <span class="text-primary">Propietario</span>
+                                    <% } else { %>
+                                        <span>Miembro</span>
+                                    <% } %>
+                                </div>
+                            </div>
+                            <% if (isOwner && member.id !== user.id && member.id !== clan.owner_id) { %>
+                                <div class="member-actions">
+                                    <button class="member-action danger ban-member" data-user-id="<%= member.id %>" title="Banear">
+                                        <i class="fas fa-ban"></i>
+                                    </button>
+                                    <button class="member-action danger expel-member" data-user-id="<%= member.id %>" title="Expulsar">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            <% } %>
+                        </div>
+                    <% }) %>
+                </div>
+                
+                <% if (isOwner) { %>
+                    <div class="invite-section">
+                        <h4 class="invite-title">Invitar Miembros</h4>
+                        <div class="invite-link">
+                            <input type="text" id="invite-code" class="form-control" readonly placeholder="Generar código">
+                            <button id="generate-invite" class="btn btn-sm btn-primary">
+                                <i class="fas fa-key"></i>
+                            </button>
+                            <button id="copy-invite" class="btn btn-sm btn-outline-primary" disabled>
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                        <small class="text-muted">Comparte este código para que otros usuarios se unan al clan.</small>
+                    </div>
+                    
+                    <% if (bannedUsers && bannedUsers.length > 0) { %>
+                        <div class="banned-section">
+                            <h4 class="banned-title">Usuarios Baneados (<%= bannedUsers.length %>)</h4>
+                            <div class="banned-list">
+                                <% bannedUsers.forEach(banned => { %>
+                                    <div class="banned-user">
+                                        <div class="banned-avatar" data-user-id="<%= banned.id %>">
+                                            <% if (banned.profile_picture) { %>
+                                                <img src="data:image/jpeg;base64,<%= banned.profile_picture %>" alt="<%= banned.name %>">
+                                            <% } else { %>
+                                                <%= banned.name.charAt(0).toUpperCase() %>
+                                            <% } %>
+                                        </div>
+                                        <div class="banned-name"><%= banned.name %></div>
+                                        <button class="banned-action unban-user" data-user-id="<%= banned.id %>">
+                                            <i class="fas fa-user-check"></i> Desbanear
+                                        </button>
+                                    </div>
+                                <% }) %>
+                            </div>
+                        </div>
+                    <% } %>
+                <% } %>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal para eliminar clan -->
+    <div class="modal fade" id="deleteClanModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-trash me-2"></i>Eliminar Clan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>¿Estás seguro de que quieres eliminar este clan? Esta acción no se puede deshacer.</p>
+                    <p class="text-danger fw-bold"><i class="fas fa-exclamation-triangle me-2"></i>Se eliminarán todos los mensajes y datos asociados al clan.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <form action="/clan/<%= clan.id %>/eliminar" method="POST">
+                        <button type="submit" class="btn btn-danger">Eliminar Clan</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal para editar mensaje -->
+    <div class="modal fade" id="editMessageModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-edit me-2"></i>Editar Mensaje</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <textarea id="edit-message-text" class="form-control" rows="4"></textarea>
+                    <input type="hidden" id="edit-message-id">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" id="save-edit-message" class="btn btn-primary">Guardar Cambios</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal para miembros en móvil -->
+    <div class="modal fade" id="membersModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen-sm-down">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-users me-2"></i>Miembros del Clan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <div class="members-modal-container">
+                        <div class="members-header">
+                            <h3 class="members-title">Miembros (<%= members.length %>)</h3>
+                        </div>
+                        
+                        <div class="members-list">
+                            <% members.forEach(member => { %>
+                                <div class="member" data-user-id="<%= member.id %>">
+                                    <div class="member-avatar" data-user-id="<%= member.id %>">
+                                        <% if (member.profile_picture) { %>
+                                            <img src="data:image/jpeg;base64,<%= member.profile_picture %>" alt="<%= member.name %>">
+                                        <% } else { %>
+                                            <%= member.name.charAt(0).toUpperCase() %>
+                                        <% } %>
+                                        <div class="online-indicator" style="display: none;"></div>
+                                    </div>
+                                    <div class="member-info">
+                                        <h4 class="member-name"><%= member.name %></h4>
+                                        <div class="member-status">
+                                            <% if (member.id === clan.owner_id) { %>
+                                                <span class="text-primary">Propietario</span>
+                                            <% } else { %>
+                                                <span>Miembro</span>
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                    <% if (isOwner && member.id !== user.id && member.id !== clan.owner_id) { %>
+                                        <div class="member-actions">
+                                            <button class="member-action danger ban-member" data-user-id="<%= member.id %>" title="Banear">
+                                                <i class="fas fa-ban"></i>
+                                            </button>
+                                            <button class="member-action danger expel-member" data-user-id="<%= member.id %>" title="Expulsar">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </div>
+                                    <% } %>
+                                </div>
+                            <% }) %>
+                        </div>
+                        
+                        <% if (isOwner) { %>
+                            <div class="invite-section">
+                                <h4 class="invite-title">Invitar Miembros</h4>
+                                <div class="invite-link">
+                                    <input type="text" id="invite-code-modal" class="form-control" readonly placeholder="Generar código">
+                                    <button id="generate-invite-modal" class="btn btn-sm btn-primary">
+                                        <i class="fas fa-key"></i>
+                                    </button>
+                                    <button id="copy-invite-modal" class="btn btn-sm btn-outline-primary" disabled>
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                                <small class="text-muted">Comparte este código para que otros usuarios se unan al clan.</small>
+                            </div>
+                            
+                            <% if (bannedUsers && bannedUsers.length > 0) { %>
+                                <div class="banned-section">
+                                    <h4 class="banned-title">Usuarios Baneados (<%= bannedUsers.length %>)</h4>
+                                    <div class="banned-list">
+                                        <% bannedUsers.forEach(banned => { %>
+                                            <div class="banned-user">
+                                                <div class="banned-avatar" data-user-id="<%= banned.id %>">
+                                                    <% if (banned.profile_picture) { %>
+                                                        <img src="data:image/jpeg;base64,<%= banned.profile_picture %>" alt="<%= banned.name %>">
+                                                    <% } else { %>
+                                                        <%= banned.name.charAt(0).toUpperCase() %>
+                                                    <% } %>
+                                                </div>
+                                                <div class="banned-name"><%= banned.name %></div>
+                                                <button class="banned-action unban-user" data-user-id="<%= banned.id %>">
+                                                    <i class="fas fa-user-check"></i> Desbanear
+                                                </button>
+                                            </div>
+                                        <% }) %>
+                                    </div>
+                                </div>
+                            <% } %>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Añadir este modal al final del archivo, justo antes de los scripts -->
+    <!-- Modal para ver perfil de usuario -->
+    <div class="modal fade" id="userProfileModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-user me-2"></i>Perfil de Usuario</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <div class="user-profile-container">
+                        <div class="user-banner" id="userBanner">
+                            <!-- Banner se cargará aquí -->
+                        </div>
+                        <div class="user-profile-content">
+                            <div class="user-avatar-large" id="userAvatar">
+                                <!-- Avatar se cargará aquí -->
+                            </div>
+                            <h3 class="user-name" id="userName">Cargando...</h3>
+                            <div class="user-description" id="userDescription">
+                                <p class="text-muted">Cargando información del usuario...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        // Asegurarse de que el socket se inicialice correctamente y se registre el usuario
+        document.addEventListener('DOMContentLoaded', function() {
+            const socket = io();
+            const clanId = '<%= clan.id %>';
+            const userId = parseInt('<%= user.id %>', 10); // Convertir a número
+            const isOwner = <%= isOwner %>;
+            const isMember = <%= isMember %>;
+            const banned = <%= banned %>;
+            
+            // Variables para el scroll infinito
+            let currentPage = <%= currentPage %>;
+            let isLoading = false;
+            let hasMoreMessages = <%= currentPage < totalPages %>;
+            const chatMessages = document.getElementById('chat-messages');
+            const loadingIndicator = document.getElementById('loading-indicator');
+            
+            // Auto-resize textarea
+            const messageInput = document.getElementById('message-input');
+            if (messageInput) {
+                messageInput.addEventListener('input', function() {
+                    this.style.height = 'auto';
+                    this.style.height = (this.scrollHeight) + 'px';
+                });
+            }
+            
+            // Registrar el usuario en el socket para identificarlo en el servidor
+            socket.emit('registerUser', userId);
+            
+            // Unirse a la sala del clan
+            socket.emit('joinClan', clanId);
+            
+            // Actualizar contador de miembros en línea
+            socket.on('updateMembersCount', function(data) {
+                document.getElementById('online-count').textContent = data.count;
+            });
+            
+            // Actualizar estado en línea de los usuarios
+            socket.on('userStatusUpdate', function(onlineUsers) {
+                // Ocultar todos los indicadores de en línea
+                document.querySelectorAll('.online-indicator').forEach(indicator => {
+                    indicator.style.display = 'none';
+                });
+                
+                // Mostrar indicadores para usuarios en línea
+                for (const userId in onlineUsers) {
+                    const memberElements = document.querySelectorAll(`.member[data-user-id="${userId}"] .online-indicator`);
+                    memberElements.forEach(indicator => {
+                        indicator.style.display = 'block';
+                    });
+                }
+            });
+            
+            // Manejar indicador de escritura
+            const typingIndicator = document.getElementById('typing-indicator');
+            let typingTimeout;
+            
+            if (messageInput) {
+                messageInput.addEventListener('input', function() {
+                    clearTimeout(typingTimeout);
+                    
+                    // Emitir evento de escritura
+                    socket.emit('typing', {
+                        clan_id: clanId,
+                        user_id: userId,
+                        isTyping: true
+                    });
+                    
+                    // Detener evento de escritura después de 2 segundos de inactividad
+                    typingTimeout = setTimeout(() => {
+                        socket.emit('typing', {
+                            clan_id: clanId,
+                            user_id: userId,
+                            isTyping: false
+                        });
+                    }, 2000);
+                });
+            }
+            
+            // Mostrar indicador de escritura
+            socket.on('userTyping', function(data) {
+                if (data.user_id !== userId) {
+                    const memberElement = document.querySelector(`.member[data-user-id="${data.user_id}"]`);
+                    if (memberElement) {
+                        const memberName = memberElement.querySelector('.member-name').textContent;
+                        
+                        if (data.isTyping) {
+                            typingIndicator.textContent = `${memberName} está escribiendo...`;
+                            typingIndicator.style.opacity = '1';
+                        } else {
+                            // Fade out animation
+                            typingIndicator.style.opacity = '0';
+                            setTimeout(() => {
+                                if (typingIndicator.style.opacity === '0') {
+                                    typingIndicator.textContent = '';
+                                }
+                            }, 500);
+                        }
+                    }
+                }
+            });
+            
+            // Enviar mensaje
+            const messageForm = document.getElementById('message-form');
+            
+            if (messageForm) {
+                messageForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const messageText = messageInput.value.trim();
+                    if (messageText) {
+                        socket.emit('sendMessage', {
+                            clan_id: clanId,
+                            user_id: userId,
+                            message: messageText
+                        });
+                        
+                        messageInput.value = '';
+                        messageInput.style.height = 'auto';
+                        
+                        // Detener evento de escritura
+                        socket.emit('typing', {
+                            clan_id: clanId,
+                            user_id: userId,
+                            isTyping: false
+                        });
+                    }
+                });
+            }
+            
+            // Recibir nuevo mensaje
+            socket.on('newMessage', function(data) {
+                // Limpiar mensaje de "no hay mensajes"
+                if (chatMessages.querySelector('.text-center.text-muted')) {
+                    chatMessages.innerHTML = '';
+                    // Volver a agregar el indicador de carga
+                    chatMessages.appendChild(loadingIndicator);
+                }
+                
+                const isOwnMessage = parseInt(data.user_id, 10) === userId;
+                
+                const messageElement = document.createElement('div');
+                messageElement.className = `message ${isOwnMessage ? 'own' : ''}`;
+                messageElement.dataset.messageId = data.id;
+                
+                const avatarElement = document.createElement('div');
+                avatarElement.className = 'message-avatar';
+                avatarElement.dataset.userId = data.user_id;
+                
+                if (data.profile_picture) {
+                    const avatarImg = document.createElement('img');
+                    avatarImg.src = `data:image/jpeg;base64,${data.profile_picture}`;
+                    avatarImg.alt = data.user;
+                    avatarElement.appendChild(avatarImg);
+                } else {
+                    avatarElement.textContent = data.user.charAt(0).toUpperCase();
+                }
+                
+                const contentElement = document.createElement('div');
+                contentElement.className = 'message-content';
+                contentElement.dataset.userId = data.user_id;
+                
+                if (!isOwnMessage) {
+                    const senderElement = document.createElement('div');
+                    senderElement.className = 'message-sender';
+                    senderElement.textContent = data.user;
+                    contentElement.appendChild(senderElement);
+                }
+                
+                const textElement = document.createElement('div');
+                textElement.className = 'message-text';
+                textElement.textContent = data.message;
+                
+                const timeElement = document.createElement('div');
+                timeElement.className = 'message-time';
+                timeElement.textContent = data.timestamp;
+                
+                contentElement.appendChild(textElement);
+                contentElement.appendChild(timeElement);
+                
+                if (isOwnMessage) {
+                    const actionsElement = document.createElement('div');
+                    actionsElement.className = 'message-actions';
+                    
+                    const editButton = document.createElement('button');
+                    editButton.className = 'message-action edit-message';
+                    editButton.title = 'Editar';
+                    editButton.innerHTML = '<i class="fas fa-edit"></i>';
+                    
+                    const deleteButton = document.createElement('button');
+                    deleteButton.className = 'message-action danger delete-message';
+                    deleteButton.title = 'Eliminar';
+                    deleteButton.innerHTML = '<i class="fas fa-trash"></i>';
+                    
+                    actionsElement.appendChild(editButton);
+                    actionsElement.appendChild(deleteButton);
+                    contentElement.appendChild(actionsElement);
+                }
+                
+                messageElement.appendChild(avatarElement);
+                messageElement.appendChild(contentElement);
+                
+                chatMessages.appendChild(messageElement);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                
+                // Agregar eventos a los botones de editar y eliminar
+                setupMessageActions();
+                
+                // Añadir evento de clic al avatar para ver el perfil
+                avatarElement.addEventListener('click', function() {
+                    loadUserProfile(data.user_id);
+                });
+            });
+            
+            // Editar mensaje
+            socket.on('messageEdited', function(data) {
+                const messageElement = document.querySelector(`.message[data-message-id="${data.message_id}"]`);
+                if (messageElement) {
+                    const textElement = messageElement.querySelector('.message-text');
+                    textElement.textContent = data.new_message;
+                    
+                    // Añadir efecto de highlight
+                    messageElement.classList.add('highlight-animation');
+                    setTimeout(() => {
+                        messageElement.classList.remove('highlight-animation');
+                    }, 1000);
+                }
+            });
+            
+            // Eliminar mensaje
+            socket.on('messageDeleted', function(data) {
+                const messageElement = document.querySelector(`.message[data-message-id="${data.message_id}"]`);
+                if (messageElement) {
+                    // Añadir animación de desvanecimiento antes de eliminar
+                    messageElement.style.opacity = '0';
+                    messageElement.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        messageElement.remove();
+                    }, 300);
+                }
+            });
+            
+            // Definir los handlers fuera para evitar duplicación
+            function editMessageHandler() {
+                const messageElement = this.closest('.message');
+                const messageId = messageElement.dataset.messageId;
+                const messageText = messageElement.querySelector('.message-text').textContent;
+                
+                document.getElementById('edit-message-id').value = messageId;
+                document.getElementById('edit-message-text').value = messageText;
+                
+                const editModal = new bootstrap.Modal(document.getElementById('editMessageModal'));
+                editModal.show();
+            }
+
+            function deleteMessageHandler() {
+                if (confirm('¿Estás seguro de que quieres eliminar este mensaje?')) {
+                    const messageElement = this.closest('.message');
+                    const messageId = messageElement.dataset.messageId;
+                    
+                    socket.emit('deleteMessage', {
+                        clan_id: clanId,
+                        message_id: messageId
+                    });
+                }
+            }
+            
+            // Configurar eventos para editar y eliminar mensajes
+            function setupMessageActions() {
+                // Editar mensaje
+                document.querySelectorAll('.edit-message').forEach(button => {
+                    button.removeEventListener('click', editMessageHandler); // Eliminar handler previo si existe
+                    button.addEventListener('click', editMessageHandler);
+                });
+                
+                // Eliminar mensaje
+                document.querySelectorAll('.delete-message').forEach(button => {
+                    button.removeEventListener('click', deleteMessageHandler); // Eliminar handler previo si existe
+                    button.addEventListener('click', deleteMessageHandler);
+                });
+            }
+            
+            // Guardar mensaje editado
+            document.getElementById('save-edit-message').addEventListener('click', function() {
+                const messageId = document.getElementById('edit-message-id').value;
+                const newMessage = document.getElementById('edit-message-text').value.trim();
+                
+                if (newMessage) {
+                    socket.emit('editMessage', {
+                        clan_id: clanId,
+                        message_id: messageId,
+                        new_message: newMessage
+                    });
+                    
+                    // Cerrar el modal después de enviar la edición
+                    const editModal = bootstrap.Modal.getInstance(document.getElementById('editMessageModal'));
+                    if (editModal) {
+                        editModal.hide();
+                    } else {
+                        // Alternativa si no se puede obtener la instancia
+                        document.querySelector('[data-bs-dismiss="modal"]').click();
+                    }
+                }
+            });
+            
+
+            // Función para cargar mensajes anteriores
+            function loadPreviousMessages() {
+                if (isLoading || !hasMoreMessages) return;
+    
+                isLoading = true;
+                loadingIndicator.style.display = 'block';
+                
+                // Incrementar la página para cargar el siguiente conjunto de mensajes
+                const nextPage = currentPage + 1;
+                
+                // Guardar la altura del scroll y el primer mensaje para mantener la posición
+                const scrollHeight = chatMessages.scrollHeight;
+                const firstMessage = chatMessages.firstElementChild;
+                const firstMessageHeight = firstMessage ? firstMessage.offsetHeight : 0;
+                
+                fetch(`/api/clan/${clanId}/messages?page=${nextPage}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.messages && data.messages.length > 0) {
+                            // Crear fragmento para añadir todos los mensajes de una vez
+                            const fragment = document.createDocumentFragment();
+                            
+                            // Invertir los mensajes para mostrarlos en orden cronológico
+                            data.messages.reverse().forEach(message => {
+                                const isOwnMessage = parseInt(message.user_id, 10) === userId;
+                                
+                                const messageElement = document.createElement('div');
+                                messageElement.className = `message ${isOwnMessage ? 'own' : ''}`;
+                                messageElement.dataset.messageId = message.id;
+                                
+                                const avatarElement = document.createElement('div');
+                                avatarElement.className = 'message-avatar';
+                                avatarElement.dataset.userId = message.user_id;
+                                
+                                if (message.profile_picture) {
+                                    const avatarImg = document.createElement('img');
+                                    avatarImg.src = `data:image/jpeg;base64,${message.profile_picture}`;
+                                    avatarImg.alt = message.name;
+                                    avatarElement.appendChild(avatarImg);
+                                } else {
+                                    avatarElement.textContent = message.name.charAt(0).toUpperCase();
+                                }
+                                
+                                const contentElement = document.createElement('div');
+                                contentElement.className = 'message-content';
+                                contentElement.dataset.userId = message.user_id;
+                                
+                                if (!isOwnMessage) {
+                                    const senderElement = document.createElement('div');
+                                    senderElement.className = 'message-sender';
+                                    senderElement.textContent = message.name;
+                                    contentElement.appendChild(senderElement);
+                                }
+                                
+                                const textElement = document.createElement('div');
+                                textElement.className = 'message-text';
+                                textElement.textContent = message.message;
+                                
+                                const timeElement = document.createElement('div');
+                                timeElement.className = 'message-time';
+                                timeElement.textContent = new Date(message.timestamp).toLocaleString('es-ES', {
+                                    year: 'numeric',
+                                    month: '2-digit',
+                                    day: '2-digit',
+                                    hour: '2-digit',
+                                    minute: '2-digit'
+                                });
+                                
+                                contentElement.appendChild(textElement);
+                                contentElement.appendChild(timeElement);
+                                
+                                if (isOwnMessage) {
+                                    const actionsElement = document.createElement('div');
+                                    actionsElement.className = 'message-actions';
+                                    
+                                    const editButton = document.createElement('button');
+                                    editButton.className = 'message-action edit-message';
+                                    editButton.title = 'Editar';
+                                    editButton.innerHTML = '<i class="fas fa-edit"></i>';
+                                    
+                                    const deleteButton = document.createElement('button');
+                                    deleteButton.className = 'message-action danger delete-message';
+                                    deleteButton.title = 'Eliminar';
+                                    deleteButton.innerHTML = '<i class="fas fa-trash"></i>';
+                                    
+                                    actionsElement.appendChild(editButton);
+                                    actionsElement.appendChild(deleteButton);
+                                    contentElement.appendChild(actionsElement);
+                                }
+                                
+                                messageElement.appendChild(avatarElement);
+                                messageElement.appendChild(contentElement);
+                                
+                                // Añadir evento de clic al avatar para ver el perfil
+                                avatarElement.addEventListener('click', function() {
+                                    loadUserProfile(message.user_id);
+                                });
+                                
+                                fragment.appendChild(messageElement);
+                            });
+                            
+                            // Insertar los mensajes al principio del chat (antes del indicador de carga)
+                            chatMessages.insertBefore(fragment, loadingIndicator);
+                            
+                            // Actualizar la página actual
+                            currentPage = nextPage;
+                            
+                            // Verificar si hay más mensajes para cargar
+                            hasMoreMessages = data.hasMore;
+                            
+                            // Mantener la posición del scroll
+                            if (firstMessage) {
+                                // Calcular la nueva altura y ajustar el scroll para mantener la posición
+                                const newScrollHeight = chatMessages.scrollHeight;
+                                const heightDifference = newScrollHeight - scrollHeight;
+                                chatMessages.scrollTop = heightDifference;
+                                
+                                // Prevenir que el scroll salte al banner
+                                setTimeout(() => {
+                                    // Asegurarse de que el scroll se mantenga dentro del chat
+                                    if (chatMessages.scrollTop < heightDifference) {
+                                        chatMessages.scrollTop = heightDifference;
+                                    }
+                                }, 10);
+                            }
+                            
+                            // Configurar eventos para los nuevos mensajes
+                            setupMessageActions();
+                        } else {
+                            hasMoreMessages = false;
+                        }
+                        
+                        isLoading = false;
+                        loadingIndicator.style.display = hasMoreMessages ? 'none' : 'none';
+                    })
+                    .catch(error => {
+                        console.error('Error al cargar mensajes:', error);
+                        isLoading = false;
+                        loadingIndicator.style.display = 'none';
+                    });
+            }
+
+            // Detectar cuando el usuario hace scroll hacia arriba
+            chatMessages?.addEventListener('scroll', function(e) {
+                // Prevenir que el evento se propague para evitar que afecte al scroll de la página
+                e.stopPropagation();
+                
+                // Si estamos en el límite superior o inferior del chat y tratamos de seguir scrolleando
+                if (chatMessages.scrollTop < 100 && hasMoreMessages && !isLoading) {
+                    // Prevenir el comportamiento predeterminado
+                    e.preventDefault();
+                    loadPreviousMessages();
+                }
+            });
+            
+            // Prevenir que el scroll del chat afecte al scroll de la página
+            document.querySelector('.chat-container').addEventListener('touchmove', function(e) {
+                // Si estamos en el límite superior o inferior del chat y tratamos de seguir scrolleando
+                const chatMessages = document.getElementById('chat-messages');
+                if (chatMessages && ((chatMessages.scrollTop <= 0 && e.touches[0].clientY > 0) || 
+                    (chatMessages.scrollTop + chatMessages.clientHeight >= chatMessages.scrollHeight && e.touches[0].clientY < 0))) {
+                    // No hacer nada, dejar que el evento se maneje normalmente
+                } else {
+                    // Prevenir que el scroll se propague a la página
+                    e.stopPropagation();
+                }
+            }, { passive: false });
+            
+            // Configurar eventos para los botones de miembros (banear, expulsar)
+            if (isOwner) {
+                // Banear miembro
+                document.querySelectorAll('.ban-member').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const userId = this.dataset.userId;
+                        if (confirm('¿Estás seguro de que quieres banear a este miembro? No podrá volver a unirse al clan.')) {
+                            fetch(`/clan/${clanId}/ban/${userId}`, {
+                                method: 'POST'
+                            })
+                            .then(response => response.text())
+                            .then(data => {
+                                alert(data);
+                                location.reload();
+                            });
+                        }
+                    });
+                });
+                
+                // Expulsar miembro
+                document.querySelectorAll('.expel-member').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const userId = this.dataset.userId;
+                        if (confirm('¿Estás seguro de que quieres expulsar a este miembro? Podrá volver a unirse con una invitación.')) {
+                            fetch(`/clan/${clanId}/expel/${userId}`, {
+                                method: 'POST'
+                            })
+                            .then(response => response.text())
+                            .then(data => {
+                                alert(data);
+                                location.reload();
+                            });
+                        }
+                    });
+                });
+                
+                // Desbanear usuario
+                document.querySelectorAll('.unban-user').forEach(button => {
+                    button.addEventListener('click', function() {
+                        const userId = this.dataset.userId;
+                        if (confirm('¿Estás seguro de que quieres desbanear a este usuario?')) {
+                            fetch(`/clan/${clanId}/unban/${userId}`, {
+                                method: 'POST'
+                            })
+                            .then(response => response.text())
+                            .then(data => {
+                                alert(data);
+                                location.reload();
+                            });
+                        }
+                    });
+                });
+                
+                // Generar código de invitación
+                document.getElementById('generate-invite').addEventListener('click', function() {
+                    fetch(`/clan/${clanId}/generar-invitacion`, {
+                        method: 'POST'
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.error) {
+                            alert(data.error);
+                        } else {
+                            const inviteCode = data.code;
+                            const inviteInput = document.getElementById('invite-code');
+                            inviteInput.value = inviteCode;
+                            document.getElementById('copy-invite').disabled = false;
+                        }
+                    });
+                });
+                
+                // Copiar código de invitación
+                document.getElementById('copy-invite').addEventListener('click', function() {
+                    const inviteInput = document.getElementById('invite-code');
+                    inviteInput.select();
+                    document.execCommand('copy');
+                    
+                    // Mostrar feedback visual
+                    this.innerHTML = '<i class="fas fa-check"></i>';
+                    setTimeout(() => {
+                        this.innerHTML = '<i class="fas fa-copy"></i>';
+                    }, 2000);
+                });
+            }
+            
+            // Configurar eventos para los mensajes existentes
+            setupMessageActions();
+            
+            // Hacer scroll al final del chat
+            if (chatMessages) {
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+            
+            // Check for unread publications
+            function checkUnreadPublications() {
+                fetch(`/publicacion/${clanId}/unread-count`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const badge = document.getElementById('unread-badge');
+                        if (badge) {
+                            if (data.count > 0) {
+                                badge.textContent = data.count;
+                                badge.style.display = 'inline-block';
+                            } else {
+                                badge.style.display = 'none';
+                            }
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+            
+            // Run on page load
+            checkUnreadPublications();
+
+            // Sincronizar códigos de invitación entre modal y vista de escritorio
+            if (isOwner) {
+                // Generar código en el modal
+                document.getElementById('generate-invite-modal')?.addEventListener('click', function() {
+                    fetch(`/clan/${clanId}/generar-invitacion`, {
+                        method: 'POST'
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.error) {
+                            alert(data.error);
+                        } else {
+                            const inviteCode = data.code;
+                            const inviteInputModal = document.getElementById('invite-code-modal');
+                            const inviteInputDesktop = document.getElementById('invite-code');
+                            
+                            inviteInputModal.value = inviteCode;
+                            inviteInputDesktop.value = inviteCode;
+                            
+                            document.getElementById('copy-invite-modal').disabled = false;
+                            document.getElementById('copy-invite').disabled = false;
+                        }
+                    });
+                });
+                
+                // Copiar código en el modal
+                document.getElementById('copy-invite-modal')?.addEventListener('click', function() {
+                    const inviteInput = document.getElementById('invite-code-modal');
+                    inviteInput.select();
+                    document.execCommand('copy');
+                    
+                    // Mostrar feedback visual
+                    this.innerHTML = '<i class="fas fa-check"></i>';
+                    setTimeout(() => {
+                        this.innerHTML = '<i class="fas fa-copy"></i>';
+                    }, 2000);
+                });
+            }
+            
+            // Añadir clase para animación de highlight
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes highlight {
+                    0% { background-color: rgba(67, 97, 238, 0.2); }
+                    100% { background-color: transparent; }
+                }
+                .highlight-animation {
+                    animation: highlight 1s ease-out;
+                }
+            `;
+            document.head.appendChild(style);
+        });
+
+    // Función para cargar y mostrar el perfil de un usuario
+    function loadUserProfile(userId) {
+        // Mostrar el modal con indicadores de carga
+        document.getElementById('userName').textContent = 'Cargando...';
+        document.getElementById('userDescription').innerHTML = '<p class="text-muted">Cargando información del usuario...</p>';
+        document.getElementById('userAvatar').innerHTML = '<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Cargando...</span></div>';
+        document.getElementById('userBanner').style.backgroundImage = 'none';
+        
+        // Abrir el modal
+        const profileModal = new bootstrap.Modal(document.getElementById('userProfileModal'));
+        profileModal.show();
+        
+        // Cargar los datos del usuario
+        fetch(`/api/user/${userId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error al cargar el perfil');
+                }
+                return response.json();
+            })
+            .then(user => {
+                // Actualizar el nombre
+                document.getElementById('userName').textContent = user.name;
+                
+                // Actualizar la descripción
+                document.getElementById('userDescription').innerHTML = `<p>${user.description || 'Este usuario no ha añadido una descripción.'}</p>`;
+                
+                // Actualizar el avatar
+                const avatarElement = document.getElementById('userAvatar');
+                if (user.profile_picture) {
+                    avatarElement.innerHTML = `<img src="data:image/jpeg;base64,${user.profile_picture}" alt="${user.name}">`;
+                } else {
+                    avatarElement.innerHTML = user.name.charAt(0).toUpperCase();
+                }
+                
+                // Actualizar el banner
+                const bannerElement = document.getElementById('userBanner');
+                if (user.banner) {
+                    bannerElement.style.backgroundImage = `url(data:image/jpeg;base64,${user.banner})`;
+                } else {
+                    bannerElement.style.backgroundColor = 'var(--gray-light)';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('userName').textContent = 'Error';
+                document.getElementById('userDescription').innerHTML = '<p class="text-danger">No se pudo cargar la información del usuario.</p>';
+                document.getElementById('userAvatar').innerHTML = '<i class="fas fa-exclamation-triangle"></i>';
+            });
+    }
+    
+    // Añadir evento de clic a todos los avatares
+    document.addEventListener('DOMContentLoaded', function() {
+        // Añadir eventos a los avatares de mensajes
+        document.querySelectorAll('.message-avatar').forEach(avatar => {
+            avatar.addEventListener('click', function() {
+                const userId = this.dataset.userId;
+                if (userId) {
+                    loadUserProfile(userId);
+                }
+            });
+        });
+        
+        // Añadir eventos a los avatares de miembros
+        document.querySelectorAll('.member-avatar').forEach(avatar => {
+            avatar.addEventListener('click', function() {
+                const userId = this.dataset.userId;
+                if (userId) {
+                    loadUserProfile(userId);
+                }
+            });
+        });
+        
+        // Añadir eventos a los avatares de usuarios baneados
+        document.querySelectorAll('.banned-avatar').forEach(avatar => {
+            avatar.addEventListener('click', function() {
+                const userId = this.dataset.userId;
+                if (userId) {
+                    loadUserProfile(userId);
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

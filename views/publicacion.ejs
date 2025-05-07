@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publicaciones - <%= clan.title %></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #4895ef;
+            --success: #4cc9f0;
+            --danger: #f72585;
+            --warning: #ffd166;
+            --info: #0096c7;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --gray-light: #e9ecef;
+            --gray-dark: #343a40;
+            --body-bg: #f5f7fa;
+            --card-shadow: 0 8px 24px rgba(149, 157, 165, 0.15);
+            --hover-shadow: 0 12px 28px rgba(149, 157, 165, 0.25);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            background-color: var(--body-bg);
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            padding: 15px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 24px;
+            color: white;
+            letter-spacing: 0.5px;
+        }
+
+        .navbar-nav .nav-link {
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 8px 15px;
+            border-radius: 6px;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .publications-container {
+            padding: 40px 0;
+        }
+
+        .clan-header {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 30px;
+            transition: var(--transition);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .clan-header:hover {
+            box-shadow: var(--hover-shadow);
+            transform: translateY(-5px);
+        }
+
+        .clan-banner {
+            height: 220px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .clan-banner::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: linear-gradient(to top, rgba(255,255,255,0.9), transparent);
+        }
+
+        .clan-info {
+            padding: 25px;
+        }
+
+        .clan-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--primary);
+            position: relative;
+            display: inline-block;
+        }
+
+        .clan-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 3px;
+        }
+
+        .clan-description {
+            color: var(--gray);
+            margin-bottom: 0;
+            font-size: 15px;
+        }
+
+        .publication-form {
+            background-color: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 35px;
+            transition: var(--transition);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .publication-form:hover {
+            box-shadow: var(--hover-shadow);
+        }
+
+        .publication-form h3 {
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--dark);
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .publication-form h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background-color: var(--primary);
+            border-radius: 3px;
+        }
+
+        .form-control {
+            border-radius: 8px;
+            padding: 12px 15px;
+            border: 1px solid var(--gray-light);
+            transition: var(--transition);
+            font-size: 15px;
+        }
+
+        .form-control:focus {
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+            border-color: var(--primary);
+        }
+
+        .btn {
+            border-radius: 8px;
+            font-weight: 500;
+            padding: 10px 20px;
+            transition: var(--transition);
+            letter-spacing: 0.3px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+        }
+
+        .publication-card {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 35px;
+            transition: var(--transition);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .publication-card:hover {
+            box-shadow: var(--hover-shadow);
+            transform: translateY(-5px);
+        }
+
+        .publication-header {
+            padding: 18px 20px;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--gray-light);
+            background-color: rgba(248, 249, 250, 0.5);
+        }
+
+        .publication-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-right: 15px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+            border: 2px solid white;
+        }
+
+        .publication-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .publication-author {
+            font-weight: 600;
+            margin: 0;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+        }
+
+        .publication-date {
+            font-size: 13px;
+            color: var(--gray);
+        }
+
+        .publication-content {
+            padding: 25px;
+        }
+
+        .publication-text {
+            margin-bottom: 20px;
+            white-space: pre-line;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        .publication-image {
+            width: 100%;
+            max-height: 500px;
+            object-fit: contain;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: var(--transition);
+        }
+
+        .publication-image:hover {
+            transform: scale(1.01);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+        }
+
+        .publication-actions {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 25px 18px;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .publication-action {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--gray);
+            text-decoration: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-weight: 500;
+            font-size: 14px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            transition: var(--transition);
+        }
+
+        .publication-action:hover {
+            color: var(--primary);
+            background-color: rgba(67, 97, 238, 0.05);
+        }
+
+        .publication-action.liked {
+            color: var(--danger);
+        }
+
+        .publication-action.liked:hover {
+            color: var(--danger);
+            background-color: rgba(247, 37, 133, 0.05);
+        }
+
+        .comments-section {
+            padding: 20px 25px;
+        }
+
+        .comments-title {
+            font-weight: 600;
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: var(--dark);
+            position: relative;
+            display: inline-block;
+        }
+
+        .comments-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 30px;
+            height: 2px;
+            background-color: var(--primary);
+            border-radius: 2px;
+        }
+
+        .comment {
+            display: flex;
+            margin-bottom: 18px;
+        }
+
+        .comment-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-right: 12px;
+            flex-shrink: 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border: 2px solid white;
+        }
+
+        .comment-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .comment-content {
+            flex: 1;
+            background-color: var(--light);
+            padding: 12px 18px;
+            border-radius: 12px;
+            position: relative;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+        }
+
+        .comment-content:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .comment-author {
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: var(--dark);
+        }
+
+        .comment-text {
+            font-size: 14px;
+            margin-bottom: 5px;
+            line-height: 1.5;
+        }
+
+        .comment-date {
+            font-size: 12px;
+            color: var(--gray);
+            text-align: right;
+        }
+
+        .comment-form {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .comment-form textarea {
+            flex: 1;
+            border-radius: 20px;
+            padding: 12px 18px;
+            resize: none;
+            height: 45px;
+            transition: var(--transition);
+            border: 1px solid var(--gray-light);
+        }
+
+        .comment-form textarea:focus {
+            height: 70px;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+            border-color: var(--primary);
+        }
+
+        .comment-form button {
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border: none;
+            box-shadow: 0 4px 8px rgba(67, 97, 238, 0.25);
+            transition: var(--transition);
+        }
+
+        .comment-form button:hover {
+            transform: translateY(-3px) rotate(15deg);
+            box-shadow: 0 6px 12px rgba(67, 97, 238, 0.35);
+        }
+
+        .no-publications {
+            text-align: center;
+            padding: 60px 30px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .no-publications:hover {
+            box-shadow: var(--hover-shadow);
+        }
+
+        .no-publications i {
+            color: var(--gray-light);
+            margin-bottom: 20px;
+        }
+
+        .no-publications h3 {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        .no-publications p {
+            color: var(--gray);
+            max-width: 500px;
+            margin: 0 auto 20px;
+        }
+
+        .image-preview {
+            margin-top: 15px;
+            border-radius: 8px;
+            overflow: hidden;
+            display: none;
+            max-height: 200px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border: 2px solid var(--gray-light);
+            transition: var(--transition);
+        }
+
+        .image-preview:hover {
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+        }
+
+        .image-preview img {
+            width: 100%;
+            height: auto;
+            max-height: 200px;
+            object-fit: contain;
+        }
+
+        .delete-publication {
+            color: var(--gray);
+            cursor: pointer;
+            margin-left: 10px;
+            font-size: 14px;
+            transition: var(--transition);
+            width: 28px;
+            height: 28px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .delete-publication:hover {
+            color: var(--danger);
+            background-color: rgba(247, 37, 133, 0.1);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+
+        /* Loader animation */
+        .loader {
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .publication-card {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .publication-card:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .publication-card:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+
+        /* Like button animation */
+        @keyframes heartBeat {
+            0% { transform: scale(1); }
+            14% { transform: scale(1.3); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.3); }
+            70% { transform: scale(1); }
+        }
+
+        .publication-action.liked i {
+            animation: heartBeat 1s;
+        }
+
+        /* File input styling */
+        .form-control[type="file"] {
+            padding: 10px;
+        }
+
+        .form-control[type="file"]::file-selector-button {
+            border: none;
+            background: var(--primary);
+            padding: 8px 16px;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-right: 15px;
+        }
+
+        .form-control[type="file"]::file-selector-button:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .clan-banner {
+                height: 180px;
+            }
+
+            .clan-title {
+                font-size: 24px;
+            }
+
+            .publication-content {
+                padding: 20px;
+            }
+
+            .publication-actions {
+                padding: 0 20px 15px;
+            }
+
+            .comments-section {
+                padding: 15px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="/dashboard">
+                <i class="fas fa-users me-2"></i>Clan App
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/dashboard"><i class="fas fa-home me-1"></i> Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/clan/<%= clan.id %>"><i class="fas fa-comments me-1"></i> Chat</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/perfil"><i class="fas fa-user me-1"></i> Mi Perfil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt me-1"></i> Cerrar Sesión</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container publications-container">
+        <div class="clan-header">
+            <div class="clan-banner" style="background-image: url('/imagen/<%= clan.id %>/banner')"></div>
+            <div class="clan-info">
+                <h1 class="clan-title"><%= clan.title %> - Publicaciones</h1>
+                <p class="clan-description"><%= clan.description %></p>
+            </div>
+        </div>
+        
+        <% if (isOwner) { %>
+            <div class="publication-form">
+                <h3><i class="fas fa-pen-fancy me-2"></i>Crear nueva publicación</h3>
+                <form action="/publicacion/<%= clan.id %>/crear" method="POST" enctype="multipart/form-data" id="publication-form">
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Descripción</label>
+                        <textarea class="form-control" id="description" name="description" rows="3" placeholder="¿Qué quieres compartir con tu clan?"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Imagen (opcional)</label>
+                        <input type="file" class="form-control" id="image" name="image" accept="image/*" onchange="previewImage(this)">
+                        <div id="image-preview" class="image-preview">
+                            <img src="#" alt="Vista previa">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane me-2"></i>Publicar
+                    </button>
+                </form>
+            </div>
+        <% } %>
+        
+        <div id="publications-container">
+            <% if (publications.length === 0) { %>
+                <div class="no-publications">
+                    <i class="fas fa-newspaper fa-4x mb-3"></i>
+                    <h3>No hay publicaciones aún</h3>
+                    <% if (isOwner) { %>
+                        <p>Sé el primero en crear una publicación para tu clan.</p>
+                        <a href="#description" class="btn btn-primary">
+                            <i class="fas fa-pen-fancy me-2"></i>Crear mi primera publicación
+                        </a>
+                    <% } else { %>
+                        <p>El propietario del clan aún no ha creado ninguna publicación.</p>
+                    <% } %>
+                </div>
+            <% } else { %>
+                <% publications.forEach(publication => { %>
+                    <div class="publication-card" id="publication-<%= publication.id %>">
+                        <div class="publication-header">
+                            <div class="publication-avatar">
+                                <% if (publication.profile_picture) { %>
+                                    <img src="data:image/png;base64,<%= publication.profile_picture %>" alt="<%= publication.name %>">
+                                <% } else { %>
+                                    <%= publication.name.charAt(0).toUpperCase() %>
+                                <% } %>
+                            </div>
+                            <div>
+                                <h5 class="publication-author">
+                                    <%= publication.name %>
+                                    <% if (isOwner) { %>
+                                        <form action="/publicacion/<%= clan.id %>/eliminar/<%= publication.id %>" method="POST" class="d-inline delete-form">
+                                            <button type="submit" class="delete-publication" title="Eliminar publicación">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    <% } %>
+                                </h5>
+                                <div class="publication-date">
+                                    <i class="far fa-clock me-1"></i>
+                                    <%= new Date(publication.created_at).toLocaleString('es-ES', {
+                                        year: 'numeric',
+                                        month: 'long',
+                                        day: 'numeric',
+                                        hour: '2-digit',
+                                        minute: '2-digit'
+                                    }) %>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="publication-content">
+                            <% if (publication.description) { %>
+                                <p class="publication-text"><%= publication.description %></p>
+                            <% } %>
+                            
+                            <% if (publication.image) { %>
+                                <img src="/publicacion/imagen/<%= publication.id %>" alt="Imagen de la publicación" class="publication-image">
+                            <% } %>
+                        </div>
+                        
+                        <div class="publication-actions">
+                            <button class="publication-action <%= publication.userLiked ? 'liked' : '' %>" 
+                                    onclick="likePublication('<%= publication.id %>', '<%= clan.id %>')" 
+                                    id="like-btn-<%= publication.id %>">
+                                <i class="<%= publication.userLiked ? 'fas' : 'far' %> fa-heart" id="like-icon-<%= publication.id %>"></i>
+                                <span id="likes-count-<%= publication.id %>"><%= publication.likesCount %> Me gusta</span>
+                            </button>
+                            
+                            <div class="publication-action">
+                                <i class="far fa-comment"></i>
+                                <span id="comments-count-<%= publication.id %>"><%= publication.comments.length %> Comentarios</span>
+                            </div>
+                        </div>
+                        
+                        <div class="comments-section">
+                            <h6 class="comments-title">Comentarios</h6>
+                            
+                            <div id="comments-container-<%= publication.id %>">
+                                <% if (publication.comments.length === 0) { %>
+                                    <p class="text-muted" id="no-comments-<%= publication.id %>">No hay comentarios aún. Sé el primero en comentar.</p>
+                                <% } else { %>
+                                    <% publication.comments.forEach(comment => { %>
+                                        <div class="comment">
+                                            <div class="comment-avatar">
+                                                <% if (comment.profile_picture) { %>
+                                                    <img src="data:image/png;base64,<%= comment.profile_picture %>" alt="<%= comment.name %>">
+                                                <% } else { %>
+                                                    <%= comment.name.charAt(0).toUpperCase() %>
+                                                <% } %>
+                                            </div>
+                                            <div class="comment-content">
+                                                <div class="comment-author"><%= comment.name %></div>
+                                                <div class="comment-text"><%= comment.comment %></div>
+                                                <div class="comment-date">
+                                                    <i class="far fa-clock me-1"></i>
+                                                    <%= new Date(comment.created_at).toLocaleString('es-ES', {
+                                                        year: 'numeric',
+                                                        month: 'short',
+                                                        day: 'numeric',
+                                                        hour: '2-digit',
+                                                        minute: '2-digit'
+                                                    }) %>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <% }) %>
+                                <% } %>
+                            </div>
+                            
+                            <form class="comment-form" onsubmit="addComment(event, '<%= publication.id %>', '<%= clan.id %>')">
+                                <textarea class="form-control" name="comment" placeholder="Escribe un comentario..." required id="comment-input-<%= publication.id %>"></textarea>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                <% }) %>
+            <% } %>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const socket = io();
+            const clanId = '<%= clan.id %>';
+            const userId = parseInt('<%= user.id %>', 10);
+            
+            // Registrar el usuario en el socket
+            socket.emit('registerUser', userId);
+            
+            // Unirse a la sala del clan
+            socket.emit('joinClan', clanId);
+            
+            // Escuchar nuevas publicaciones
+            socket.on('newPublication', function(publication) {
+                // Verificar si ya existe el contenedor de publicaciones
+                const publicationsContainer = document.getElementById('publications-container');
+                const noPublicationsDiv = document.querySelector('.no-publications');
+                
+                // Si no hay publicaciones, limpiar el contenedor
+                if (noPublicationsDiv) {
+                    publicationsContainer.innerHTML = '';
+                }
+                
+                // Crear el elemento de la nueva publicación
+                const publicationElement = document.createElement('div');
+                publicationElement.className = 'publication-card';
+                publicationElement.id = `publication-${publication.id}`;
+                publicationElement.style.opacity = '0';
+                publicationElement.style.transform = 'translateY(20px)';
+                
+                // Construir el HTML de la publicación
+                let publicationHTML = `
+                    <div class="publication-header">
+                        <div class="publication-avatar">
+                            ${publication.profile_picture 
+                                ? `<img src="data:image/png;base64,${publication.profile_picture}" alt="${publication.name}">`
+                                : publication.name.charAt(0).toUpperCase()
+                            }
+                        </div>
+                        <div>
+                            <h5 class="publication-author">
+                                ${publication.name}
+                                ${<%= isOwner %> ? `
+                                    <form action="/publicacion/${clanId}/eliminar/${publication.id}" method="POST" class="d-inline delete-form">
+                                        <button type="submit" class="delete-publication" title="Eliminar publicación">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                ` : ''}
+                            </h5>
+                            <div class="publication-date">
+                                <i class="far fa-clock me-1"></i>${publication.formatted_date}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="publication-content">
+                        ${publication.description ? `<p class="publication-text">${publication.description}</p>` : ''}
+                        ${publication.image ? `<img src="/publicacion/imagen/${publication.id}" alt="Imagen de la publicación" class="publication-image">` : ''}
+                    </div>
+                    
+                    <div class="publication-actions">
+                        <button class="publication-action" 
+                                onclick="likePublication('${publication.id}', '${clanId}')" 
+                                id="like-btn-${publication.id}">
+                            <i class="far fa-heart" id="like-icon-${publication.id}"></i>
+                            <span id="likes-count-${publication.id}">0 Me gusta</span>
+                        </button>
+                        
+                        <div class="publication-action">
+                            <i class="far fa-comment"></i>
+                            <span id="comments-count-${publication.id}">0 Comentarios</span>
+                        </div>
+                    </div>
+                    
+                    <div class="comments-section">
+                        <h6 class="comments-title">Comentarios</h6>
+                        
+                        <div id="comments-container-${publication.id}">
+                            <p class="text-muted" id="no-comments-${publication.id}">No hay comentarios aún. Sé el primero en comentar.</p>
+                        </div>
+                        
+                        <form class="comment-form" onsubmit="addComment(event, '${publication.id}', '${clanId}')">
+                            <textarea class="form-control" name="comment" placeholder="Escribe un comentario..." required id="comment-input-${publication.id}"></textarea>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </form>
+                    </div>
+                `;
+                
+                publicationElement.innerHTML = publicationHTML;
+                
+                // Insertar la nueva publicación al principio del contenedor
+                publicationsContainer.insertBefore(publicationElement, publicationsContainer.firstChild);
+                
+                // Animar la entrada de la nueva publicación
+                setTimeout(() => {
+                    publicationElement.style.transition = 'opacity 0.5s, transform 0.5s';
+                    publicationElement.style.opacity = '1';
+                    publicationElement.style.transform = 'translateY(0)';
+                }, 10);
+                
+                // Configurar los manejadores de eventos para el formulario de eliminación
+                setupDeleteForms();
+            });
+            
+            // Escuchar eliminación de publicaciones
+            socket.on('publicationDeleted', function(data) {
+                const publicationElement = document.getElementById(`publication-${data.publication_id}`);
+                if (publicationElement) {
+                    // Animar la salida de la publicación
+                    publicationElement.style.transition = 'opacity 0.5s, transform 0.5s';
+                    publicationElement.style.opacity = '0';
+                    publicationElement.style.transform = 'translateY(20px)';
+                    
+                    // Eliminar el elemento después de la animación
+                    setTimeout(() => {
+                        publicationElement.remove();
+                        
+                        // Verificar si no quedan publicaciones
+                        const publicationsContainer = document.getElementById('publications-container');
+                        if (publicationsContainer.children.length === 0) {
+                            const noPublicationsHTML = `
+                                <div class="no-publications" style="opacity: 0; transform: translateY(20px);">
+                                    <i class="fas fa-newspaper fa-4x mb-3"></i>
+                                    <h3>No hay publicaciones aún</h3>
+                                    ${<%= isOwner %> ? 
+                                        `<p>Sé el primero en crear una publicación para tu clan.</p>
+                                        <a href="#description" class="btn btn-primary">
+                                            <i class="fas fa-pen-fancy me-2"></i>Crear mi primera publicación
+                                        </a>` : 
+                                        '<p>El propietario del clan aún no ha creado ninguna publicación.</p>'
+                                    }
+                                </div>
+                            `;
+                            publicationsContainer.innerHTML = noPublicationsHTML;
+                            
+                            // Animar la entrada del mensaje de no publicaciones
+                            const noPublicationsDiv = document.querySelector('.no-publications');
+                            setTimeout(() => {
+                                noPublicationsDiv.style.transition = 'opacity 0.5s, transform 0.5s';
+                                noPublicationsDiv.style.opacity = '1';
+                                noPublicationsDiv.style.transform = 'translateY(0)';
+                            }, 10);
+                        }
+                    }, 500);
+                }
+            });
+            
+            // Escuchar nuevos comentarios
+            socket.on('newComment', function(comment) {
+                const commentsContainer = document.getElementById(`comments-container-${comment.publication_id}`);
+                const noCommentsElement = document.getElementById(`no-comments-${comment.publication_id}`);
+                
+                // Eliminar el mensaje de "no hay comentarios" si existe
+                if (noCommentsElement) {
+                    noCommentsElement.remove();
+                }
+                
+                // Crear el elemento del nuevo comentario
+                const commentElement = document.createElement('div');
+                commentElement.className = 'comment';
+                commentElement.style.opacity = '0';
+                commentElement.style.transform = 'translateY(10px)';
+                
+                // Construir el HTML del comentario
+                commentElement.innerHTML = `
+                    <div class="comment-avatar">
+                        ${comment.profile_picture 
+                            ? `<img src="data:image/png;base64,${comment.profile_picture}" alt="${comment.name}">`
+                            : comment.name.charAt(0).toUpperCase()
+                        }
+                    </div>
+                    <div class="comment-content">
+                        <div class="comment-author">${comment.name}</div>
+                        <div class="comment-text">${comment.comment}</div>
+                        <div class="comment-date">
+                            <i class="far fa-clock me-1"></i>${comment.formatted_date}
+                        </div>
+                    </div>
+                `;
+                
+                // Añadir el comentario al contenedor
+                commentsContainer.appendChild(commentElement);
+                
+                // Animar la entrada del nuevo comentario
+                setTimeout(() => {
+                    commentElement.style.transition = 'opacity 0.5s, transform 0.5s';
+                    commentElement.style.opacity = '1';
+                    commentElement.style.transform = 'translateY(0)';
+                }, 10);
+                
+                // Actualizar el contador de comentarios
+                const commentsCountElement = document.getElementById(`comments-count-${comment.publication_id}`);
+                const currentCount = parseInt(commentsCountElement.textContent);
+                commentsCountElement.textContent = `${currentCount + 1} Comentarios`;
+            });
+            
+            // Escuchar actualizaciones de likes
+            socket.on('likeUpdated', function(data) {
+                const likeButton = document.getElementById(`like-btn-${data.publication_id}`);
+                const likeIcon = document.getElementById(`like-icon-${data.publication_id}`);
+                const likesCount = document.getElementById(`likes-count-${data.publication_id}`);
+                
+                if (data.liked) {
+                    likeButton.classList.add('liked');
+                    likeIcon.classList.remove('far');
+                    likeIcon.classList.add('fas');
+                    // Añadir animación de latido
+                    likeIcon.style.animation = 'none';
+                    setTimeout(() => {
+                        likeIcon.style.animation = 'heartBeat 1s';
+                    }, 10);
+                } else {
+                    likeButton.classList.remove('liked');
+                    likeIcon.classList.remove('fas');
+                    likeIcon.classList.add('far');
+                }
+                
+                likesCount.textContent = `${data.likesCount} Me gusta`;
+                
+                // Si el usuario actual es el que dio like, actualizar el estado del botón
+                if (data.user_id === userId) {
+                    likeButton.setAttribute('data-liked', data.liked ? 'true' : 'false');
+                }
+            });
+            
+            // Configurar los manejadores de eventos para los formularios de eliminación
+            setupDeleteForms();
+        });
+        
+        // Función para previsualizar la imagen
+        function previewImage(input) {
+            const preview = document.getElementById('image-preview');
+            const previewImg = preview.querySelector('img');
+            
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    previewImg.src = e.target.result;
+                    preview.style.display = 'block';
+                    
+                    // Animar la entrada de la vista previa
+                    preview.style.opacity = '0';
+                    preview.style.transform = 'translateY(10px)';
+                    setTimeout(() => {
+                        preview.style.transition = 'opacity 0.5s, transform 0.5s';
+                        preview.style.opacity = '1';
+                        preview.style.transform = 'translateY(0)';
+                    }, 10);
+                }
+                
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                preview.style.display = 'none';
+            }
+        }
+        
+        // Función para dar/quitar like a una publicación
+        function likePublication(publicationId, clanId) {
+            fetch(`/publicacion/${clanId}/like/${publicationId}`, {
+                method: 'POST',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                // La actualización se maneja a través de Socket.IO
+            })
+            .catch(error => console.error('Error:', error));
+        }
+        
+        // Función para añadir un comentario
+        function addComment(event, publicationId, clanId) {
+            event.preventDefault();
+            
+            const commentInput = document.getElementById(`comment-input-${publicationId}`);
+            const comment = commentInput.value.trim();
+            
+            if (comment) {
+                // Mostrar efecto de carga en el botón
+                const submitButton = event.target.querySelector('button[type="submit"]');
+                const originalContent = submitButton.innerHTML;
+                submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+                submitButton.disabled = true;
+                
+                fetch(`/publicacion/${clanId}/comentar/${publicationId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: `comment=${encodeURIComponent(comment)}`
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Limpiar el campo de comentario
+                    commentInput.value = '';
+                    commentInput.style.height = '45px';
+                    
+                    // Restaurar el botón
+                    submitButton.innerHTML = originalContent;
+                    submitButton.disabled = false;
+                    
+                    // La actualización se maneja a través de Socket.IO
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // Restaurar el botón en caso de error
+                    submitButton.innerHTML = originalContent;
+                    submitButton.disabled = false;
+                });
+            }
+        }
+        
+        // Configurar los manejadores de eventos para los formularios de eliminación
+        function setupDeleteForms() {
+            document.querySelectorAll('.delete-form').forEach(form => {
+                form.addEventListener('submit', function(event) {
+                    if (!confirm('¿Estás seguro de que quieres eliminar esta publicación?')) {
+                        event.preventDefault();
+                    } else {
+                        // Mostrar efecto de carga en el botón
+                        const submitButton = this.querySelector('button[type="submit"]');
+                        submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+                        submitButton.disabled = true;
+                    }
+                });
+            });
+        }
+    </script>
+   <!-- This script is already at the end of the file, but I've enhanced it with better feedback -->
+<script>
+    // Mark all publications as read when the page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        // Add a small delay to ensure the page is fully loaded
+        setTimeout(() => {
+            // Show a small notification that we're marking publications as read
+            const notificationContainer = document.createElement('div');
+            notificationContainer.style.position = 'fixed';
+            notificationContainer.style.bottom = '20px';
+            notificationContainer.style.right = '20px';
+            notificationContainer.style.backgroundColor = 'rgba(67, 97, 238, 0.9)';
+            notificationContainer.style.color = 'white';
+            notificationContainer.style.padding = '10px 15px';
+            notificationContainer.style.borderRadius = '8px';
+            notificationContainer.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
+            notificationContainer.style.zIndex = '9999';
+            notificationContainer.style.transition = 'opacity 0.3s, transform 0.3s';
+            notificationContainer.style.opacity = '0';
+            notificationContainer.style.transform = 'translateY(10px)';
+            notificationContainer.innerHTML = '<i class="fas fa-sync fa-spin me-2"></i>Actualizando...';
+            document.body.appendChild(notificationContainer);
+            
+            // Show the notification
+            setTimeout(() => {
+                notificationContainer.style.opacity = '1';
+                notificationContainer.style.transform = 'translateY(0)';
+            }, 100);
+            
+            // Make the request to mark publications as read
+            fetch(`/publicacion/<%= clan.id %>/mark-read`, {
+                method: 'POST',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Publications marked as read:', data);
+                
+                // Update notification to show success
+                notificationContainer.innerHTML = '<i class="fas fa-check-circle me-2"></i>Publicaciones actualizadas';
+                
+                // Hide the notification after a delay
+                setTimeout(() => {
+                    notificationContainer.style.opacity = '0';
+                    notificationContainer.style.transform = 'translateY(10px)';
+                    
+                    // Remove the notification from the DOM after the transition
+                    setTimeout(() => {
+                        document.body.removeChild(notificationContainer);
+                    }, 300);
+                }, 2000);
+                
+                // If there's a badge in the navbar, update it
+                const unreadBadge = document.getElementById('unread-badge');
+                if (unreadBadge) {
+                    unreadBadge.style.display = 'none';
+                }
+            })
+            .catch(error => {
+                console.error('Error marking publications as read:', error);
+                
+                // Update notification to show error
+                notificationContainer.style.backgroundColor = 'rgba(247, 37, 133, 0.9)';
+                notificationContainer.innerHTML = '<i class="fas fa-exclamation-triangle me-2"></i>Error al actualizar';
+                
+                // Hide the notification after a delay
+                setTimeout(() => {
+                    notificationContainer.style.opacity = '0';
+                    notificationContainer.style.transform = 'translateY(10px)';
+                    
+                    // Remove the notification from the DOM after the transition
+                    setTimeout(() => {
+                        document.body.removeChild(notificationContainer);
+                    }, 300);
+                }, 3000);
+            });
+        }, 500);
+    });
+</script>
+    <script>
+        // Mark all publications as read when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch(`/publicacion/<%= clan.id %>/mark-read`, {
+                method: 'POST',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Publications marked as read');
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>

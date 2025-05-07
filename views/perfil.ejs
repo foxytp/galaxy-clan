@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Perfil - Clan App</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #4895ef;
+            --success: #4cc9f0;
+            --danger: #f72585;
+            --warning: #ffd166;
+            --info: #0096c7;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --gray-light: #e9ecef;
+            --gray-dark: #343a40;
+            --body-bg: #f5f7fa;
+            --card-shadow: 0 8px 24px rgba(149, 157, 165, 0.15);
+            --hover-shadow: 0 12px 28px rgba(149, 157, 165, 0.25);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            background-color: var(--body-bg);
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding-bottom: 40px;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            padding: 15px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 24px;
+            color: white;
+            letter-spacing: 0.5px;
+            transition: var(--transition);
+        }
+
+        .navbar-brand:hover {
+            transform: translateY(-2px);
+            color: white;
+            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-nav .nav-link {
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 8px 15px;
+            border-radius: 6px;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .profile-container {
+            padding: 20px 0;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .profile-card {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 30px;
+            transition: var(--transition);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            height: 100%;
+        }
+
+        .profile-card:hover {
+            box-shadow: var(--hover-shadow);
+            transform: translateY(-5px);
+        }
+
+        .profile-banner {
+            height: 180px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            background-color: var(--secondary);
+            background-image: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 36px;
+            position: absolute;
+            bottom: -60px;
+            left: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            border: 4px solid white;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .profile-avatar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-info {
+            padding: 70px 30px 30px;
+        }
+
+        .profile-name {
+            font-weight: 700;
+            font-size: 28px;
+            margin-bottom: 5px;
+            color: var(--dark);
+        }
+
+        .profile-email {
+            color: var(--gray);
+            margin-bottom: 20px;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .profile-email:before {
+            content: '\f0e0';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 400;
+            margin-right: 8px;
+            color: var(--primary);
+        }
+
+        .profile-description {
+            background-color: var(--light);
+            padding: 20px;
+            border-radius: 8px;
+            font-size: 15px;
+            line-height: 1.7;
+            position: relative;
+            border-left: 3px solid var(--primary);
+        }
+
+        .profile-description:before {
+            content: '\f10d';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            font-size: 20px;
+            color: var(--primary);
+            background-color: white;
+            padding: 0 10px;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .profile-form {
+            background-color: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 30px;
+            transition: var(--transition);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            height: 100%;
+        }
+
+        .profile-form:hover {
+            box-shadow: var(--hover-shadow);
+        }
+
+        .form-title {
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: var(--dark);
+            position: relative;
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-title:before {
+            content: '\f4ff';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            margin-right: 10px;
+            color: var(--primary);
+        }
+
+        .form-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 3px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            font-weight: 500;
+            margin-bottom: 10px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+        }
+
+        .form-label:before {
+            margin-right: 8px;
+            color: var(--primary);
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+        }
+
+        label[for="profile_picture"]:before {
+            content: '\f007';
+        }
+
+        label[for="banner"]:before {
+            content: '\f03e';
+        }
+
+        label[for="description"]:before {
+            content: '\f4ad';
+        }
+
+        .file-input-label {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--light);
+            color: var(--dark);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            border: 1px solid var(--gray-light);
+            width: 100%;
+            text-align: center;
+        }
+
+        .file-input-label:hover {
+            background-color: var(--gray-light);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .file-input-label i {
+            margin-right: 8px;
+            color: var(--primary);
+        }
+
+        .image-preview {
+            margin-top: 15px;
+            border-radius: 8px;
+            overflow: hidden;
+            display: none;
+            max-height: 200px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border: 2px solid var(--gray-light);
+            transition: var(--transition);
+        }
+
+        .image-preview:hover {
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+            transform: scale(1.02);
+        }
+
+        .image-preview img {
+            width: 100%;
+            height: auto;
+            max-height: 200px;
+            object-fit: contain;
+        }
+
+        .form-control {
+            border-radius: 8px;
+            padding: 12px 15px;
+            border: 1px solid var(--gray-light);
+            transition: var(--transition);
+            font-size: 15px;
+        }
+
+        .form-control:focus {
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+            border-color: var(--primary);
+        }
+
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .btn {
+            border-radius: 8px;
+            font-weight: 500;
+            padding: 12px 20px;
+            transition: var(--transition);
+            letter-spacing: 0.3px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border: none;
+            color: white;
+            font-weight: 600;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+        }
+
+        .btn-primary:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .btn-primary:hover:before {
+            left: 100%;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .profile-container {
+                padding: 10px 0;
+            }
+
+            .profile-avatar {
+                width: 100px;
+                height: 100px;
+                font-size: 30px;
+                bottom: -50px;
+                left: 20px;
+            }
+
+            .profile-info {
+                padding: 60px 20px 20px;
+            }
+
+            .profile-name {
+                font-size: 24px;
+            }
+
+            .profile-form {
+                padding: 20px;
+            }
+        }
+
+        /* Animation for form submission */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse {
+            animation: pulse 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="/dashboard">
+                <i class="fas fa-users me-2"></i>Clan App
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/dashboard"><i class="fas fa-home me-1"></i> Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt me-1"></i> Cerrar Sesión</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container profile-container">
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="profile-card">
+                    <div class="profile-banner" style="background-image: url('data:image/png;base64,<%= user.banner %>')">
+                        <div class="profile-avatar">
+                            <% if (user.profile_picture) { %>
+                                <img src="data:image/png;base64,<%= user.profile_picture %>" alt="<%= user.name %>">
+                            <% } else { %>
+                                <%= user.name.charAt(0).toUpperCase() %>
+                            <% } %>
+                        </div>
+                    </div>
+                    <div class="profile-info">
+                        <h2 class="profile-name"><%= user.name %></h2>
+                        <p class="profile-email"><%= user.email %></p>
+                        <div class="profile-description">
+                            <% if (user.description) { %>
+                                <%= user.description %>
+                            <% } else { %>
+                                <em>Sin descripción. Añade una descripción para que otros miembros te conozcan mejor.</em>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="profile-form">
+                    <h3 class="form-title">Editar Perfil</h3>
+                    <form action="/perfil" method="POST" enctype="multipart/form-data" id="profile-form">
+                        <div class="form-group">
+                            <label for="profile_picture" class="form-label">Foto de Perfil</label>
+                            <label class="file-input-label">
+                                <i class="fas fa-upload"></i> Seleccionar Imagen
+                                <input type="file" id="profile_picture" name="profile_picture" accept="image/*" style="display: none;" onchange="previewImage(this, 'profile-preview')">
+                            </label>
+                            <div id="profile-preview" class="image-preview">
+                                <img src="#" alt="Vista previa">
+                            </div>
+                            <small class="text-muted mt-2 d-block">Recomendado: Imagen cuadrada de al menos 200x200 píxeles.</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="banner" class="form-label">Banner de Perfil</label>
+                            <label class="file-input-label">
+                                <i class="fas fa-upload"></i> Seleccionar Imagen
+                                <input type="file" id="banner" name="banner" accept="image/*" style="display: none;" onchange="previewImage(this, 'banner-preview')">
+                            </label>
+                            <div id="banner-preview" class="image-preview">
+                                <img src="#" alt="Vista previa">
+                            </div>
+                            <small class="text-muted mt-2 d-block">Recomendado: Imagen de 1200x400 píxeles para mejor visualización.</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="description" class="form-label">Descripción</label>
+                            <textarea class="form-control" id="description" name="description" rows="4" placeholder="Cuéntanos sobre ti..."><%= user.description || '' %></textarea>
+                            <small class="text-muted mt-2 d-block">Máximo 500 caracteres.</small>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="fas fa-save me-2"></i>Guardar Cambios
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Toast notification for feedback -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <div id="toast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <i id="toast-icon" class="fas fa-info-circle me-2"></i>
+                <strong class="me-auto" id="toast-title">Notificación</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body" id="toast-message">
+                Mensaje de notificación
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check for success or error messages in URL params
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('success')) {
+                showToast('Perfil actualizado', 'Tu perfil ha sido actualizado correctamente.', 'success');
+            } else if (urlParams.has('error')) {
+                showToast('Error', 'Hubo un problema al actualizar tu perfil. Inténtalo de nuevo.', 'error');
+            }
+            
+            // Initialize existing images if available
+            initializeExistingImages();
+            
+            // Form submission animation
+            const form = document.getElementById('profile-form');
+            form.addEventListener('submit', function(e) {
+                const submitButton = this.querySelector('button[type="submit"]');
+                submitButton.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Guardando...';
+                submitButton.disabled = true;
+                
+                // Add pulse animation to form
+                this.closest('.profile-form').classList.add('pulse');
+            });
+        });
+        
+        function previewImage(input, previewId) {
+            const preview = document.getElementById(previewId);
+            const previewImg = preview.querySelector('img');
+            
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    previewImg.src = e.target.result;
+                    preview.style.display = 'none'; // Reset display to apply animation
+                    setTimeout(() => {
+                        preview.style.display = 'block';
+                        preview.style.opacity = '0';
+                        preview.style.transform = 'translateY(10px)';
+                        
+                        setTimeout(() => {
+                            preview.style.transition = 'opacity 0.5s, transform 0.5s';
+                            preview.style.opacity = '1';
+                            preview.style.transform = 'translateY(0)';
+                        }, 10);
+                    }, 10);
+                }
+                
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        
+        function initializeExistingImages() {
+            // If user already has profile picture, show it in preview
+            <% if (user.profile_picture) { %>
+                const profilePreview = document.getElementById('profile-preview');
+                const profileImg = profilePreview.querySelector('img');
+                profileImg.src = 'data:image/png;base64,<%= user.profile_picture %>';
+                profilePreview.style.display = 'block';
+            <% } %>
+            
+            // If user already has banner, show it in preview
+            <% if (user.banner) { %>
+                const bannerPreview = document.getElementById('banner-preview');
+                const bannerImg = bannerPreview.querySelector('img');
+                bannerImg.src = 'data:image/png;base64,<%= user.banner %>';
+                bannerPreview.style.display = 'block';
+            <% } %>
+        }
+        
+        function showToast(title, message, type = 'info') {
+            const toast = document.getElementById('toast');
+            const toastTitle = document.getElementById('toast-title');
+            const toastMessage = document.getElementById('toast-message');
+            const toastIcon = document.getElementById('toast-icon');
+            
+            // Set content
+            toastTitle.textContent = title;
+            toastMessage.textContent = message;
+            
+            // Set icon and color based on type
+            if (type === 'success') {
+                toastIcon.className = 'fas fa-check-circle me-2 text-success';
+            } else if (type === 'error') {
+                toastIcon.className = 'fas fa-exclamation-circle me-2 text-danger';
+            } else {
+                toastIcon.className = 'fas fa-info-circle me-2 text-primary';
+            }
+            
+            // Show toast
+            const bsToast = new bootstrap.Toast(toast);
+            bsToast.show();
+        }
+        
+        // Character counter for description
+        document.getElementById('description').addEventListener('input', function() {
+            const maxLength = 500;
+            const currentLength = this.value.length;
+            const remainingChars = maxLength - currentLength;
+            
+            // Get or create counter element
+            let counter = document.getElementById('char-counter');
+            if (!counter) {
+                counter = document.createElement('small');
+                counter.id = 'char-counter';
+                counter.className = 'text-muted d-block text-end mt-1';
+                this.parentNode.appendChild(counter);
+            }
+            
+            // Update counter text and style
+            counter.textContent = `${currentLength}/${maxLength} caracteres`;
+            
+            if (remainingChars < 50) {
+                counter.className = 'text-warning d-block text-end mt-1';
+            } else {
+                counter.className = 'text-muted d-block text-end mt-1';
+            }
+            
+            // Limit input
+            if (currentLength > maxLength) {
+                this.value = this.value.substring(0, maxLength);
+                counter.textContent = `${maxLength}/${maxLength} caracteres`;
+                counter.className = 'text-danger d-block text-end mt-1';
+            }
+        });
+    </script>
+</body>
+</html>

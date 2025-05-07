@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajustes del Clan - Clan App</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --primary-light: #4895ef;
+            --secondary: #3f37c9;
+            --success: #4cc9f0;
+            --danger: #f72585;
+            --warning: #ffd166;
+            --info: #0096c7;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --gray-light: #e9ecef;
+            --gray-dark: #343a40;
+            --body-bg: #f5f7fa;
+            --card-shadow: 0 8px 24px rgba(149, 157, 165, 0.15);
+            --hover-shadow: 0 12px 28px rgba(149, 157, 165, 0.25);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            background-color: var(--body-bg);
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark);
+            line-height: 1.6;
+            padding-bottom: 60px;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            padding: 15px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 24px;
+            color: white;
+            letter-spacing: 0.5px;
+        }
+
+        .navbar-nav .nav-link {
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 8px 15px;
+            border-radius: 6px;
+            margin: 0 5px;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .settings-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .settings-info {
+            background-color: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: var(--card-shadow);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+        }
+
+        .settings-info:hover {
+            box-shadow: var(--hover-shadow);
+            transform: translateY(-5px);
+        }
+
+        .settings-info::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 6px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary), var(--primary-light));
+            border-radius: 12px 0 0 12px;
+        }
+
+        .info-title {
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 15px;
+            padding-left: 15px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .info-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 15px;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary), var(--primary-light));
+            border-radius: 3px;
+        }
+
+        .info-text {
+            color: var(--gray);
+            font-size: 15px;
+            margin-bottom: 0;
+            padding-left: 15px;
+        }
+
+        .settings-form {
+            background-color: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+        }
+
+        .settings-form:hover {
+            box-shadow: var(--hover-shadow);
+        }
+
+        .form-title {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--gray-light);
+            position: relative;
+        }
+
+        .form-title::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary), var(--primary-light));
+            border-radius: 3px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: var(--dark);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-label i {
+            margin-right: 8px;
+            color: var(--primary);
+        }
+
+        .form-control {
+            border-radius: 8px;
+            padding: 12px 15px;
+            border: 1px solid var(--gray-light);
+            transition: var(--transition);
+            font-size: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-control:focus {
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+            border-color: var(--primary);
+        }
+
+        textarea.form-control {
+            min-height: 120px;
+        }
+
+        .current-image {
+            margin-bottom: 15px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .current-image:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .current-image::after {
+            content: 'Imagen actual';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 8px 12px;
+            font-size: 12px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .current-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: var(--transition);
+        }
+
+        .file-input-label {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 20px;
+            background-color: var(--light);
+            color: var(--gray-dark);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+            border: 1px solid var(--gray-light);
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .file-input-label:hover {
+            background-color: var(--primary-light);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(67, 97, 238, 0.2);
+        }
+
+        .file-input-label i {
+            margin-right: 8px;
+        }
+
+        .image-preview {
+            margin-top: 15px;
+            border-radius: 8px;
+            overflow: hidden;
+            display: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+            transition: var(--transition);
+            border: 2px dashed var(--primary-light);
+        }
+
+        .image-preview::after {
+            content: 'Vista previa';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 8px 12px;
+            font-size: 12px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .image-preview img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: var(--transition);
+        }
+
+        .btn {
+            border-radius: 8px;
+            font-weight: 500;
+            padding: 12px 25px;
+            transition: var(--transition);
+            letter-spacing: 0.3px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border: none;
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(67, 97, 238, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary) 100%);
+            box-shadow: 0 6px 15px rgba(67, 97, 238, 0.4);
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to right,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.3) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            transform: rotate(45deg);
+            animation: shimmer 3s infinite;
+            z-index: 1;
+        }
+
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%) rotate(45deg);
+            }
+            100% {
+                transform: translateX(100%) rotate(45deg);
+            }
+        }
+
+        .btn-primary span {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Toast notification */
+        .toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+
+        .toast {
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            animation: slideIn 0.3s ease-out forwards;
+            max-width: 350px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .toast.success {
+            border-left-color: var(--success);
+        }
+
+        .toast.error {
+            border-left-color: var(--danger);
+        }
+
+        .toast-icon {
+            margin-right: 15px;
+            font-size: 20px;
+        }
+
+        .toast.success .toast-icon {
+            color: var(--success);
+        }
+
+        .toast.error .toast-icon {
+            color: var(--danger);
+        }
+
+        .toast-content {
+            flex: 1;
+        }
+
+        .toast-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--dark);
+        }
+
+        .toast-message {
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        .toast-close {
+            background: none;
+            border: none;
+            color: var(--gray);
+            cursor: pointer;
+            font-size: 16px;
+            padding: 0;
+            margin-left: 10px;
+            transition: var(--transition);
+        }
+
+        .toast-close:hover {
+            color: var(--dark);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+
+        /* Loading spinner */
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            display: inline-block;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Tooltip */
+        .tooltip-container {
+            position: relative;
+            display: inline-block;
+            margin-left: 8px;
+        }
+
+        .tooltip-icon {
+            color: var(--gray);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .tooltip-icon:hover {
+            color: var(--primary);
+        }
+
+        .tooltip-text {
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--dark);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            z-index: 10;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .tooltip-text::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: var(--dark) transparent transparent transparent;
+        }
+
+        .tooltip-container:hover .tooltip-text {
+            opacity: 1;
+            visibility: visible;
+            top: -45px;
+        }
+
+        /* Character counter */
+        .char-counter {
+            position: absolute;
+            right: 10px;
+            bottom: -22px;
+            font-size: 12px;
+            color: var(--gray);
+            transition: var(--transition);
+        }
+
+        .char-counter.warning {
+            color: var(--warning);
+        }
+
+        .char-counter.danger {
+            color: var(--danger);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .navbar {
+                margin-bottom: 20px;
+            }
+
+            .settings-info, .settings-form {
+                padding: 20px;
+            }
+
+            .form-title {
+                font-size: 20px;
+                margin-bottom: 20px;
+            }
+
+            .btn {
+                padding: 10px 20px;
+            }
+        }
+
+        /* Page fade-in animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .settings-info, .settings-form {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        .settings-form {
+            animation-delay: 0.2s;
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="/dashboard">
+                <i class="fas fa-users me-2"></i>Clan App
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/dashboard"><i class="fas fa-home me-1"></i> Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/clan/<%= clan.id %>"><i class="fas fa-arrow-left me-1"></i> Volver al Clan</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout"><i class="fas fa-sign-out-alt me-1"></i> Cerrar Sesión</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container settings-container">
+        <div class="row">
+            <div class="col-md-10 mx-auto">
+                <div class="settings-info">
+                    <h3 class="info-title"><i class="fas fa-cog me-2"></i>Ajustes del Clan: <%= clan.title %></h3>
+                    <p class="info-text">Aquí puedes modificar la información y apariencia de tu clan. Los cambios se aplicarán inmediatamente a todos los miembros.</p>
+                </div>
+                
+                <div class="settings-form">
+                    <h3 class="form-title"><i class="fas fa-edit me-2"></i>Información del Clan</h3>
+                    <form action="/clan/<%= clan.id %>/ajustes" method="POST" enctype="multipart/form-data" id="settings-form">
+                        <div class="form-group">
+                            <label for="title" class="form-label">
+                                <i class="fas fa-signature"></i> Nombre del Clan
+                                <div class="tooltip-container">
+                                    <i class="fas fa-info-circle tooltip-icon"></i>
+                                    <span class="tooltip-text">El nombre debe ser único y representativo</span>
+                                </div>
+                            </label>
+                            <input type="text" class="form-control" id="title" name="title" value="<%= clan.title %>" maxlength="50" required>
+                            <div class="char-counter"><span id="title-count">0</span>/50</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="description" class="form-label">
+                                <i class="fas fa-align-left"></i> Descripción
+                                <div class="tooltip-container">
+                                    <i class="fas fa-info-circle tooltip-icon"></i>
+                                    <span class="tooltip-text">Describe el propósito y las reglas de tu clan</span>
+                                </div>
+                            </label>
+                            <textarea class="form-control" id="description" name="description" rows="4" maxlength="500" required><%= clan.description %></textarea>
+                            <div class="char-counter"><span id="description-count">0</span>/500</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="photo" class="form-label">
+                                <i class="fas fa-image"></i> Foto del Clan
+                                <div class="tooltip-container">
+                                    <i class="fas fa-info-circle tooltip-icon"></i>
+                                    <span class="tooltip-text">Recomendado: 200x200px (máx. 2MB)</span>
+                                </div>
+                            </label>
+                            <div class="current-image">
+                                <img src="/imagen/<%= clan.id %>/photo" alt="Foto actual del clan">
+                            </div>
+                            <label class="file-input-label">
+                                <i class="fas fa-upload"></i> Cambiar Imagen
+                                <input type="file" id="photo" name="photo" accept="image/*" style="display: none;" onchange="previewImage(this, 'photo-preview')">
+                            </label>
+                            <div id="photo-preview" class="image-preview">
+                                <img src="#" alt="Vista previa">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="banner" class="form-label">
+                                <i class="fas fa-image"></i> Banner del Clan
+                                <div class="tooltip-container">
+                                    <i class="fas fa-info-circle tooltip-icon"></i>
+                                    <span class="tooltip-text">Recomendado: 1200x300px (máx. 2MB)</span>
+                                </div>
+                            </label>
+                            <div class="current-image">
+                                <img src="/imagen/<%= clan.id %>/banner" alt="Banner actual del clan">
+                            </div>
+                            <label class="file-input-label">
+                                <i class="fas fa-upload"></i> Cambiar Imagen
+                                <input type="file" id="banner" name="banner" accept="image/*" style="display: none;" onchange="previewImage(this, 'banner-preview')">
+                            </label>
+                            <div id="banner-preview" class="image-preview">
+                                <img src="#" alt="Vista previa">
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary w-100" id="submit-btn">
+                            <span><i class="fas fa-save me-2"></i>Guardar Cambios</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast container for notifications -->
+    <div class="toast-container" id="toast-container"></div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Character counters
+            const titleInput = document.getElementById('title');
+            const descriptionInput = document.getElementById('description');
+            const titleCount = document.getElementById('title-count');
+            const descriptionCount = document.getElementById('description-count');
+            
+            // Update character counts on load
+            titleCount.textContent = titleInput.value.length;
+            descriptionCount.textContent = descriptionInput.value.length;
+            
+            // Update character count on input
+            titleInput.addEventListener('input', function() {
+                const count = this.value.length;
+                titleCount.textContent = count;
+                
+                const counterElement = titleCount.parentElement;
+                updateCounterClass(counterElement, count, 50);
+            });
+            
+            descriptionInput.addEventListener('input', function() {
+                const count = this.value.length;
+                descriptionCount.textContent = count;
+                
+                const counterElement = descriptionCount.parentElement;
+                updateCounterClass(counterElement, count, 500);
+            });
+            
+            // Update counter class based on character count
+            function updateCounterClass(element, count, max) {
+                element.classList.remove('warning', 'danger');
+                
+                if (count >= max * 0.8 && count < max * 0.9) {
+                    element.classList.add('warning');
+                } else if (count >= max * 0.9) {
+                    element.classList.add('danger');
+                }
+            }
+            
+            // Call once to set initial classes
+            updateCounterClass(titleCount.parentElement, titleInput.value.length, 50);
+            updateCounterClass(descriptionCount.parentElement, descriptionInput.value.length, 500);
+            
+            // Form submission
+            const form = document.getElementById('settings-form');
+            const submitBtn = document.getElementById('submit-btn');
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Validate form
+                if (!form.checkValidity()) {
+                    form.reportValidity();
+                    return;
+                }
+                
+                // Show loading state
+                const originalBtnContent = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<span><div class="spinner"></div>Guardando...</span>';
+                submitBtn.disabled = true;
+                
+                // Submit form
+                fetch(form.action, {
+                    method: 'POST',
+                    body: new FormData(form)
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error al guardar los cambios');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Show success toast
+                    showToast('¡Cambios guardados!', 'Los cambios se han aplicado correctamente.', 'success');
+                    
+                    // Reset form state
+                    submitBtn.innerHTML = originalBtnContent;
+                    submitBtn.disabled = false;
+                    
+                    // Reset image previews
+                    document.getElementById('photo-preview').style.display = 'none';
+                    document.getElementById('banner-preview').style.display = 'none';
+                    
+                    // Reload images with cache busting
+                    const timestamp = new Date().getTime();
+                    document.querySelectorAll('.current-image img').forEach(img => {
+                        const src = img.src.split('?')[0];
+                        img.src = `${src}?t=${timestamp}`;
+                    });
+                })
+                .catch(error => {
+                    // Show error toast
+                    showToast('Error', error.message, 'error');
+                    
+                    // Reset form state
+                    submitBtn.innerHTML = originalBtnContent;
+                    submitBtn.disabled = false;
+                });
+            });
+        });
+        
+        // Image preview function
+        function previewImage(input, previewId) {
+            const preview = document.getElementById(previewId);
+            const previewImg = preview.querySelector('img');
+            
+            if (input.files && input.files[0]) {
+                // Validate file size (max 2MB)
+                const maxSize = 2 * 1024 * 1024; // 2MB
+                if (input.files[0].size > maxSize) {
+                    showToast('Error', 'La imagen es demasiado grande. El tamaño máximo es 2MB.', 'error');
+                    input.value = '';
+                    return;
+                }
+                
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    previewImg.src = e.target.result;
+                    preview.style.display = 'block';
+                    
+                    // Add animation
+                    preview.style.opacity = '0';
+                    preview.style.transform = 'translateY(10px)';
+                    setTimeout(() => {
+                        preview.style.transition = 'opacity 0.3s, transform 0.3s';
+                        preview.style.opacity = '1';
+                        preview.style.transform = 'translateY(0)';
+                    }, 10);
+                }
+                
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        
+        // Toast notification function
+        function showToast(title, message, type = 'info') {
+            const toastContainer = document.getElementById('toast-container');
+            
+            // Create toast element
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            
+            // Set toast content
+            toast.innerHTML = `
+                <div class="toast-icon">
+                    <i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'}"></i>
+                </div>
+                <div class="toast-content">
+                    <div class="toast-title">${title}</div>
+                    <div class="toast-message">${message}</div>
+                </div>
+                <button class="toast-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            
+            // Add toast to container
+            toastContainer.appendChild(toast);
+            
+            // Add close event
+            toast.querySelector('.toast-close').addEventListener('click', function() {
+                closeToast(toast);
+            });
+            
+            // Auto close after 5 seconds
+            setTimeout(() => {
+                closeToast(toast);
+            }, 5000);
+        }
+        
+        // Close toast function
+        function closeToast(toast) {
+            toast.style.animation = 'slideOut 0.3s forwards';
+            setTimeout(() => {
+                toast.remove();
+            }, 300);
+        }
+    </script>
+</body>
+</html>

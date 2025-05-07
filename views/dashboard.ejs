@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Clan App</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #4895ef;
+            --success: #4cc9f0;
+            --danger: #f72585;
+            --warning: #ffd166;
+            --info: #0096c7;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --gray-light: #e9ecef;
+            --gray-dark: #343a40;
+            --body-bg: #f5f7fa;
+            --card-shadow: 0 8px 24px rgba(149, 157, 165, 0.15);
+            --hover-shadow: 0 12px 28px rgba(149, 157, 165, 0.25);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            background-color: var(--body-bg);
+            font-family: 'Poppins', sans-serif;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            padding: 15px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 24px;
+            color: white;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+        }
+
+        .clan-count-badge {
+            font-size: 0.6rem;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 10px;
+            margin-left: 10px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .clan-count-number {
+            font-weight: 700;
+        }
+
+        .navbar-nav .nav-link {
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 8px 15px;
+            border-radius: 6px;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .dashboard-container {
+            padding: 40px 0;
+        }
+
+        .section-title {
+            margin-bottom: 25px;
+            font-weight: 600;
+            color: var(--dark);
+            border-bottom: 2px solid var(--gray-light);
+            padding-bottom: 12px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background-color: var(--primary);
+        }
+
+        .clan-card {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 25px;
+            transition: var(--transition);
+            height: 100%;
+            border: none;
+            background-color: white;
+            position: relative;
+        }
+
+        .clan-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .clan-banner {
+            height: 140px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .clan-banner::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);
+        }
+
+        /* Clan icon styling - now larger */
+        .clan-icon {
+            position: absolute;
+            top: 110px;
+            right: 20px;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: white;
+            overflow: hidden;
+            border: 4px solid white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+            transition: var(--transition);
+        }
+
+        .clan-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .clan-info {
+            padding: 20px;
+        }
+
+        .clan-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .clan-description {
+            color: var(--gray);
+            font-size: 14px;
+            margin-bottom: 20px;
+            height: 60px;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+        }
+
+        .clan-actions {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .btn {
+            border-radius: 8px;
+            font-weight: 500;
+            padding: 8px 16px;
+            transition: var(--transition);
+            letter-spacing: 0.3px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+        }
+
+        .btn-outline-secondary {
+            color: var(--gray-dark);
+            border-color: var(--gray-light);
+        }
+
+        .btn-outline-secondary:hover {
+            background-color: var(--gray-light);
+            color: var(--dark);
+        }
+
+        .btn-outline-danger {
+            color: var(--danger);
+            border-color: var(--danger);
+        }
+
+        .btn-outline-danger:hover {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .btn-clan {
+            padding: 8px 16px;
+            font-size: 14px;
+            flex: 1;
+            text-align: center;
+        }
+
+        .create-clan-btn {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            font-weight: 500;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .clan-count-box {
+            background: linear-gradient(135deg, white 0%, #f8f9fa 100%);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 600;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .clan-count-box:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .clan-count-box-number {
+            color: var(--primary);
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .no-clans {
+            text-align: center;
+            padding: 40px 30px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            margin-top: 20px;
+        }
+
+        .no-clans h3 {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        .no-clans p {
+            color: var(--gray);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .join-clan-form {
+            margin-bottom: 30px;
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+        }
+
+        .join-clan-form:hover {
+            box-shadow: var(--hover-shadow);
+        }
+
+        .join-clan-form h3 {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--dark);
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .join-clan-form h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--primary);
+        }
+
+        .join-clan-form p {
+            color: var(--gray);
+            margin-bottom: 20px;
+        }
+
+        .form-control {
+            border-radius: 8px;
+            padding: 12px 15px;
+            border: 1px solid var(--gray-light);
+            transition: var(--transition);
+            font-size: 15px;
+        }
+
+        .form-control:focus {
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+            border-color: var(--primary);
+        }
+
+        .notification-badge {
+            margin-left: 8px;
+            font-size: 0.7em;
+            vertical-align: middle;
+            position: relative;
+            top: -2px;
+            background-color: var(--danger);
+            padding: 4px 8px;
+            border-radius: 10px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(247, 37, 133, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 8px rgba(247, 37, 133, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(247, 37, 133, 0);
+            }
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .page-header h2 {
+            margin: 0;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        /* Mobile Join Button */
+        .mobile-join-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            border: none;
+            font-size: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-join-btn:hover, .mobile-join-btn:focus {
+            transform: scale(1.1);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Modal styling */
+        .modal-content {
+            border-radius: 12px;
+            border: none;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            border-radius: 12px 12px 0 0;
+            border-bottom: none;
+        }
+
+        .modal-title {
+            font-weight: 600;
+        }
+
+        .modal-footer {
+            border-top: none;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .clan-actions {
+                flex-direction: column;
+            }
+            
+            .page-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .mobile-join-btn {
+                display: flex;
+            }
+            
+            .desktop-join-form {
+                display: none;
+            }
+            
+            /* Adjust clan icon position on mobile */
+            .clan-icon {
+                left: 50%;
+                transform: translateX(-50%);
+                top: 100px;
+            }
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+
+        /* Loader animation */
+        .loader {
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="/dashboard">
+                <i class="fas fa-users me-2"></i>Clan App
+                <span class="clan-count-badge">
+                    <span id="navbar-clan-count" class="clan-count-number">0</span> Clanes
+                    <span class="ms-1">(máximo 100)</span>
+                </span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/perfil">
+                            <div class="user-info">
+                                <div class="user-avatar">
+                                    <% if (user.profile_picture) { %>
+                                        <img src="data:image/jpeg;base64,<%= user.profile_picture %>" alt="<%= user.name %>" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+                                    <% } else { %>
+                                        <%= user.name.charAt(0).toUpperCase() %>
+                                    <% } %>
+                                </div>
+                                <span><%= user.name %></span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">
+                            <i class="fas fa-sign-out-alt me-1"></i> Cerrar Sesión
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container dashboard-container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="page-header">
+                    <h2>
+                        <i class="fas fa-home me-2"></i>Mis Clanes
+                    </h2>
+                    <a href="/crear" class="btn btn-primary create-clan-btn">
+                        <i class="fas fa-plus"></i> Crear Clan
+                    </a>
+                </div>
+                
+                <% if (ownClans.length === 0 && memberClans.length === 0) { %>
+                    <div class="no-clans">
+                        <i class="fas fa-users-slash fa-4x mb-3" style="color: var(--gray-light);"></i>
+                        <h3>No perteneces a ningún clan</h3>
+                        <p>Crea tu propio clan o únete a uno existente con un código de invitación.</p>
+                        <a href="/crear" class="btn btn-primary mt-3">
+                            <i class="fas fa-plus me-2"></i> Crear mi primer clan
+                        </a>
+                    </div>
+                <% } else { %>
+                    <% if (ownClans.length > 0) { %>
+                        <h3 class="section-title">
+                            <i class="fas fa-crown me-2" style="color: var(--warning);"></i>
+                            Clanes que administro
+                        </h3>
+                        <div class="row">
+                            <% ownClans.forEach(clan => { %>
+                                <div class="col-md-6 col-lg-4 mb-4">
+                                    <div class="clan-card">
+                                        <div class="clan-banner" style="background-image: url('/imagen/<%= clan.id %>/banner')"></div>
+                                        <div class="clan-icon">
+                                            <img src="/imagen/<%= clan.id %>/photo" alt="<%= clan.title %>">
+                                        </div>
+                                        <div class="clan-info">
+                                            <h4 class="clan-title">
+                                                <%= clan.title %>
+                                                <% if (unreadCounts[clan.id] && unreadCounts[clan.id] > 0) { %>
+                                                    <span class="badge notification-badge"><%= unreadCounts[clan.id] %></span>
+                                                <% } %>
+                                            </h4>
+                                            <p class="clan-description"><%= clan.description %></p>
+                                            <div class="clan-actions">
+                                                <a href="/clan/<%= clan.id %>" class="btn btn-primary btn-clan">
+                                                    <i class="fas fa-door-open me-1"></i> Entrar
+                                                </a>
+                                                <a href="/clan/<%= clan.id %>/ajustes" class="btn btn-outline-secondary btn-clan">
+                                                    <i class="fas fa-cog me-1"></i> Ajustes
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% }) %>
+                        </div>
+                    <% } %>
+                    
+                    <% if (memberClans.length > 0) { %>
+                        <h3 class="section-title">
+                            <i class="fas fa-user-friends me-2" style="color: var(--info);"></i>
+                            Clanes a los que pertenezco
+                        </h3>
+                        <div class="row">
+                            <% memberClans.forEach(clan => { %>
+                                <div class="col-md-6 col-lg-4 mb-4">
+                                    <div class="clan-card">
+                                        <div class="clan-banner" style="background-image: url('/imagen/<%= clan.id %>/banner')"></div>
+                                        <div class="clan-icon">
+                                            <img src="/imagen/<%= clan.id %>/photo" alt="<%= clan.title %>">
+                                        </div>
+                                        <div class="clan-info">
+                                            <h4 class="clan-title">
+                                                <%= clan.title %>
+                                                <% if (unreadCounts[clan.id] && unreadCounts[clan.id] > 0) { %>
+                                                    <span class="badge notification-badge"><%= unreadCounts[clan.id] %></span>
+                                                <% } %>
+                                            </h4>
+                                            <p class="clan-description"><%= clan.description %></p>
+                                            <div class="clan-actions">
+                                                <a href="/clan/<%= clan.id %>" class="btn btn-primary btn-clan">
+                                                    <i class="fas fa-door-open me-1"></i> Entrar
+                                                </a>
+                                                <form action="/clan/<%= clan.id %>/salir" method="POST" class="d-inline" onsubmit="return confirm('¿Estás seguro de que quieres salir de este clan?');">
+                                                    <button type="submit" class="btn btn-outline-danger btn-clan">
+                                                        <i class="fas fa-sign-out-alt me-1"></i> Salir
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% }) %>
+                        </div>
+                    <% } %>
+                <% } %>
+            </div>
+            
+            <div class="col-md-4">
+                <!-- Desktop Join Form - Hidden on Mobile -->
+                <div class="join-clan-form desktop-join-form">
+                    <h3><i class="fas fa-ticket-alt me-2"></i>Unirse a un Clan</h3>
+                    <p>Introduce el código de invitación para unirte a un clan existente.</p>
+                    <form action="/unirse" method="POST">
+                        <div class="mb-3">
+                            <div class="input-group">
+                                <span class="input-group-text bg-light">
+                                    <i class="fas fa-key"></i>
+                                </span>
+                                <input type="text" class="form-control" name="invite_code" placeholder="Código de invitación" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="fas fa-users me-2"></i> Unirse al Clan
+                        </button>
+                    </form>
+                </div>
+                
+                <div class="card mb-4 join-clan-form">
+                    <div class="card-body p-0">
+                        <h3><i class="fas fa-info-circle me-2"></i>Información</h3>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex align-items-center border-0 px-0 py-2">
+                                <i class="fas fa-users me-3 text-primary"></i>
+                                <div>
+                                    <strong>Clanes</strong>
+                                    <p class="mb-0 text-muted small">Crea o únete a comunidades</p>
+                                </div>
+                            </li>
+                            <li class="list-group-item d-flex align-items-center border-0 px-0 py-2">
+                                <i class="fas fa-comments me-3 text-primary"></i>
+                                <div>
+                                    <strong>Comunicación</strong>
+                                    <p class="mb-0 text-muted small">Chatea con miembros del clan</p>
+                                </div>
+                            </li>
+                            <li class="list-group-item d-flex align-items-center border-0 px-0 py-2">
+                                <i class="fas fa-calendar-alt me-3 text-primary"></i>
+                                <div>
+                                    <strong>Eventos</strong>
+                                    <p class="mb-0 text-muted small">Organiza actividades con tu clan</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Mobile Join Button - Only visible on mobile -->
+    <button class="mobile-join-btn" data-bs-toggle="modal" data-bs-target="#joinClanModal">
+        <i class="fas fa-plus"></i>
+    </button>
+    
+    <!-- Join Clan Modal -->
+    <div class="modal fade" id="joinClanModal" tabindex="-1" aria-labelledby="joinClanModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="joinClanModalLabel">
+                        <i class="fas fa-ticket-alt me-2"></i>Unirse a un Clan
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Introduce el código de invitación para unirte a un clan existente.</p>
+                    <form action="/unirse" method="POST" id="modalJoinForm">
+                        <div class="mb-3">
+                            <div class="input-group">
+                                <span class="input-group-text bg-light">
+                                    <i class="fas fa-key"></i>
+                                </span>
+                                <input type="text" class="form-control" name="invite_code" placeholder="Código de invitación" required>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" form="modalJoinForm" class="btn btn-primary">
+                        <i class="fas fa-users me-2"></i> Unirse al Clan
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5><i class="fas fa-users me-2"></i>Clan App</h5>
+                    <p class="small">La mejor plataforma para gestionar tus comunidades.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="mb-0 small">© <%= new Date().getFullYear() %> Clan App. Todos los derechos reservados.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Animación de carga para el contador
+        document.addEventListener('DOMContentLoaded', function() {
+            const navbarClanCountElement = document.getElementById('navbar-clan-count');
+            navbarClanCountElement.innerHTML = '<span class="loader"></span>';
+            
+            // Obtener el conteo de clanes del usuario
+            fetch('/clan-count')
+                .then(response => response.json())
+                .then(data => {
+                    // Animación de contador
+                    const count = data.count;
+                    let current = 0;
+                    const duration = 1000; // 1 segundo
+                    const increment = count / (duration / 50); // Incremento cada 50ms
+                    
+                    const timer = setInterval(() => {
+                        current += increment;
+                        if (current >= count) {
+                            clearInterval(timer);
+                            current = count;
+                        }
+                        navbarClanCountElement.textContent = Math.floor(current);
+                    }, 50);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    navbarClanCountElement.textContent = '0';
+                });
+        });
+        
+        // Efecto hover para las tarjetas
+        const clanCards = document.querySelectorAll('.clan-card');
+        clanCards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-8px)';
+            });
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = '';
+            });
+        });
+        
+        // Animación para el botón móvil
+        const mobileJoinBtn = document.querySelector('.mobile-join-btn');
+        if (mobileJoinBtn) {
+            mobileJoinBtn.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.1)';
+            });
+            mobileJoinBtn.addEventListener('mouseleave', function() {
+                this.style.transform = '';
+            });
+        }
+    </script>
+</body>
+</html>
+
