@@ -477,12 +477,12 @@ router.get("/imagen/:publicationId", (req, res) => {
   })
 })
 
-// Add a new route to mark publications as read
+// pipipi
 router.post("/:clanId/mark-read", isAuthenticated, isMember, (req, res) => {
   const clanId = req.params.clanId
   const userId = req.session.user.id
 
-  // Get all publications for this clan
+  // entren a mi discord
   db.all("SELECT id FROM publications WHERE clan_id = ?", [clanId], (err, publications) => {
     if (err) {
       console.error("Error getting publications:", err)
@@ -493,7 +493,6 @@ router.post("/:clanId/mark-read", isAuthenticated, isMember, (req, res) => {
       return res.json({ success: true })
     }
 
-    // Create a batch insert for all unread publications
     const placeholders = publications.map(() => "(?, ?)").join(", ")
     const values = []
 
@@ -514,7 +513,6 @@ router.post("/:clanId/mark-read", isAuthenticated, isMember, (req, res) => {
   })
 })
 
-// Add a route to get unread publications count for a clan
 router.get("/:clanId/unread-count", isAuthenticated, (req, res) => {
   const clanId = req.params.clanId
   const userId = req.session.user.id
