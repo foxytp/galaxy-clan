@@ -8,7 +8,7 @@ const multer = require("multer")
 const http = require("http")
 const { Server } = require("socket.io")
 const nodemailer = require("nodemailer")
-const crypto = require("crypto") // Asegúrate de tener esta importación
+const crypto = require("crypto")
 
 // Importar el módulo de publicaciones
 const publicacionModule = require("./publicacion")
@@ -108,7 +108,7 @@ db.run(
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "stelarstudio0@gmail.com", // Tu correo de Gmail
+    user: "correo electronico.com", // Tu correo de Gmail
     pass: "myzceuujbgfmzrxy"
   },
 })
@@ -139,7 +139,7 @@ app.post("/register", async (req, res) => {
 
   // Enviar código de verificación en un correo decorado
   await transporter.sendMail({
-    from: "stelarstudio0@gmail.com",
+    from: "correo electronico.com",
     to: email,
     subject: "Código de verificación",
     html: `
@@ -227,7 +227,7 @@ app.get("/resend-code", async (req, res) => {
   user.resendCount += 1
 
   await transporter.sendMail({
-    from: "stelarstudio0@gmail.com",
+    from: "correo electronico.com",
     to: user.email,
     subject: "Nuevo código de verificación",
     html: `
@@ -387,9 +387,6 @@ app.post("/crear", upload.fields([{ name: "photo" }, { name: "banner" }]), (req,
   })
 })
 
-// Add a new function to get unread publications count for all clans
-// Add this function before the app.get("/dashboard", ...) route
-
 function getUnreadPublicationsCount(userId, clans, callback) {
   if (!clans || clans.length === 0) {
     return callback(null, {})
@@ -424,8 +421,8 @@ function getUnreadPublicationsCount(userId, clans, callback) {
   )
 }
 
-// Modify the dashboard route to include unread counts
-// In the app.get("/dashboard", ...) route, modify it to:
+// creo que necesito ayuda
+// https://fxy-fox.netlify.app/
 
 app.get("/dashboard", (req, res) => {
   if (!req.session.user) return res.redirect("/")
@@ -1141,7 +1138,7 @@ app.post("/clan/:id/eliminar", (req, res) => {
   })
 })
 
-
+// alguien le estas cosas?
 
 // Al inicio de tu archivo de servidor:
 const onlineUsers = {}
@@ -1395,9 +1392,6 @@ app.get("/clan-count", (req, res) => {
     res.json({ count })
   })
 })
-
-// Añadir esta ruta después de las otras rutas de API, antes de iniciar el servidor
-// Esta ruta permitirá obtener los datos de perfil de un usuario por su ID
 
 app.get("/api/user/:id", (req, res) => {
   if (!req.session.user) return res.status(401).json({ error: "No autorizado" })
